@@ -1,0 +1,28 @@
+* {
+   margin: 0;
+   padding: 0;
+}
+
+html {
+   -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+   height: 100%;
+}
+
+body {
+   background: rgb(152, 126, 126);
+   color: white;
+   overflow-x: hidden;   
+}
+
+#root {
+   position: relative;
+   min-height: 100%;
+}
+
+main {
+   // height: 100px;
+   padding-bottom: 75px;
+}

@@ -1,0 +1,168 @@
+nav {
+  user-select: none;
+  background: linear-gradient(to right, #530808, #a90b0b);
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+nav .logo {
+  align-self: center;
+  height: 3rem;
+  padding: 0.7rem;
+  animation: rotate 30s linear infinite;
+}
+nav .logo:hover {
+  cursor: pointer;
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+nav .nav-links {
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+}
+nav .nav-links li {
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  padding: 0.5rem 1.5rem;
+  transition: all 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  nav .nav-links li:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 1.7rem;
+  }
+}
+nav .nav-links li:active {
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 1.65rem;
+}
+nav .nav-links .selected {
+  border-bottom: 1px solid white;
+}
+nav .burger-button {
+  display: none;
+  align-self: center;
+  margin-right: 1.5rem;
+}
+nav .selected-menu {
+  display: none;
+  align-self: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+@media only screen and (max-width: 700px) {
+  nav .nav-links li {
+    font-size: 1.2rem;
+  }
+}
+@media only screen and (max-width: 700px) and (hover: hover) and (pointer: fine) {
+  nav .nav-links li:hover {
+    font-size: 1.4rem;
+  }
+}
+@media only screen and (max-width: 700px) {
+  nav .nav-links li:active {
+    font-size: 1.35rem;
+  }
+}
+@media only screen and (max-width: 600px) {
+  nav .nav-links {
+    display: none;
+  }
+  nav .burger-button {
+    display: block;
+  }
+  nav .selected-menu {
+    display: block;
+  }
+}
+@media only screen and (max-width: 450px) {
+  nav .selected-menu {
+    font-size: 1.2rem;
+  }
+}
+
+.menu {
+  position: absolute;
+  right: 0px;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  border-bottom-left-radius: 3rem;
+  transform: translateX(100%);
+  display: flex;
+  justify-content: center;
+}
+.menu .nav-links {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 3rem;
+  text-align: center;
+  list-style: none;
+}
+.menu .nav-links li {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  font-size: 1.5rem;
+  border-radius: 20px;
+  transition: all 0.4s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .menu .nav-links li:hover {
+    cursor: pointer;
+    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+.menu .nav-links li:active {
+  box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.4);
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.menu-opened {
+  animation: menu-open 0.3s ease-in;
+  transform: translateX(0%);
+}
+
+.menu-closed {
+  animation: menu-close 0.3s ease-in;
+  transform: translateX(100%);
+}
+
+@keyframes menu-open {
+  from {
+    transform: translateX(100%);
+    border-bottom-left-radius: 30rem;
+  }
+  to {
+    transform: translateX(0%);
+    border-bottom-left-radius: 3rem;
+  }
+}
+@keyframes menu-close {
+  from {
+    transform: translateX(0%);
+    border-bottom-left-radius: 3rem;
+  }
+  to {
+    transform: translateX(100%);
+    border-bottom-left-radius: 30rem;
+  }
+}
+
+/*# sourceMappingURL=Nav.css.map */
