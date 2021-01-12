@@ -10,25 +10,26 @@ const Nav = () => {
    const [enableMenu, setEnableMenu] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
    const [selectedMenuPoint, setSelectedMenuPoint] = useState('');
+
    const openClose = () => {
       setIsOpen(!isOpen);
       setEnableMenu(true);
    }
+
    const setSelected = (e) => {
       if (e.target.className !== 'nav-links') {
-         let links = document.querySelector('.nav-links > a');
+         setIsOpen(false);
+         setSelectedMenuPoint(e.target.innerHTML);
+         let links = document.querySelector('nav .nav-links > a');
          while (links) {
-            links.firstChild.classList.remove('selected');
+            if (links.firstChild.innerHTML === e.target.innerHTML) {
+               links.firstChild.classList.add('selected');
+            } else {
+               links.firstChild.classList.remove('selected');
+            }
+
             links = links.nextElementSibling;
          }
-         e.target.classList.add('selected');
-         setSelectedMenuPoint(e.target.innerHTML);
-      }
-   }
-   const closeSideBarBySelect = (e) => {
-      if (e.target.className !== 'nav-links') {
-         setIsOpen(!isOpen);
-         setSelectedMenuPoint(e.target.innerHTML);
       }
    }
 
@@ -43,6 +44,7 @@ const Nav = () => {
          default: title = 'Főoldal'; break;
       }
       setSelectedMenuPoint(title);
+      
       let links = document.querySelector('.nav-links > a');
       while (links) {
          if (links.firstChild.innerHTML === title) {
@@ -51,6 +53,7 @@ const Nav = () => {
          links = links.nextElementSibling;
       }
    }, [selectedMenuPoint]);
+
    return (
       <>
          <nav>
@@ -72,7 +75,7 @@ const Nav = () => {
             <Burger className='burger-button' isOpen={isOpen} onClick={openClose} />
          </nav>
          <div className={`menu ${isOpen ? 'menu-opened' : enableMenu ? 'menu-closed' : ''}`}>
-            <ul className='nav-links' onClick={closeSideBarBySelect}>
+            <ul className='nav-links' onClick={setSelected}>
                <Link to='/'>
                   <li>Főoldal</li>
                </Link>
