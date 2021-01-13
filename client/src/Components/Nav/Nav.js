@@ -16,21 +16,8 @@ const Nav = () => {
       setEnableMenu(true);
    }
 
-   const setSelected = (e) => {
-      if (e.target.className !== 'nav-links') {
-         setIsOpen(false);
-         setSelectedMenuPoint(e.target.innerHTML);
-         let links = document.querySelector('nav .nav-links > a');
-         while (links) {
-            if (links.firstChild.innerHTML === e.target.innerHTML) {
-               links.firstChild.classList.add('selected');
-            } else {
-               links.firstChild.classList.remove('selected');
-            }
-
-            links = links.nextElementSibling;
-         }
-      }
+   const changeMenu = () => {
+      setSelectedMenuPoint('');
    }
 
    useEffect(() => {
@@ -44,23 +31,27 @@ const Nav = () => {
          default: title = 'Főoldal'; break;
       }
       setSelectedMenuPoint(title);
-      
+
       let links = document.querySelector('.nav-links > a');
       while (links) {
          if (links.firstChild.innerHTML === title) {
             links.firstChild.classList.add('selected')
+         } else {
+            links.firstChild.classList.remove('selected')
          }
          links = links.nextElementSibling;
       }
+
+      setIsOpen(false);
    }, [selectedMenuPoint]);
 
    return (
       <>
          <nav>
             <Link to='/'>
-               <img className='logo' src={Logo} alt='Logo' />
+               <img className='logo' src={Logo} alt='Logo' onClick={changeMenu} />
             </Link>
-            <ul className='nav-links' onClick={setSelected}>
+            <ul className='nav-links' onClick={changeMenu}>
                <Link to='/'>
                   <li>Főoldal</li>
                </Link>
@@ -75,7 +66,7 @@ const Nav = () => {
             <Burger className='burger-button' isOpen={isOpen} onClick={openClose} />
          </nav>
          <div className={`menu ${isOpen ? 'menu-opened' : enableMenu ? 'menu-closed' : ''}`}>
-            <ul className='nav-links' onClick={setSelected}>
+            <ul className='nav-links' onClick={changeMenu}>
                <Link to='/'>
                   <li>Főoldal</li>
                </Link>
