@@ -5,16 +5,23 @@
 
 html {
   -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 html, body {
   height: 100%;
 }
 
+html, body, #root {
+  width: 100%;
+}
+
 body {
   background: #987e7e;
   color: white;
   overflow-x: hidden;
+  -webkit-overflow-x: hidden;
 }
 
 #root {
@@ -24,6 +31,8 @@ body {
 
 main {
   padding-bottom: 75px;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 /*# sourceMappingURL=App.css.map */

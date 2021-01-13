@@ -139,6 +139,7 @@ module.exports = async function() {
          console.log(err.stack);
       } finally {
          await client.close();
+         console.log('Database closed.');
       }
    }
 

@@ -50,9 +50,9 @@ const Nav = ({listElements}) => {
    }
 
    const showMenuPoints = () => {
-      return listElements.map(listElement => {
+      return listElements.map((listElement, i) => {
          return (
-            <Link to={`/${listElement.path}`}>
+            <Link key={i} to={`/${listElement.path}`}>
                <li>{listElement.name}</li>
             </Link>
          )
