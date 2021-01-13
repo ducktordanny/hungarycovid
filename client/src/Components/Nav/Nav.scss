@@ -151,11 +151,13 @@ a {
 
 .menu-opened {
    animation: menu-open .3s ease-in;
+   animation-iteration-count: 1;
    transform: translateX(0%);   
 }
 
 .menu-closed {
    animation: menu-close .3s ease-in;
+   animation-iteration-count: 1;
    transform: translateX(100%)
 }
 

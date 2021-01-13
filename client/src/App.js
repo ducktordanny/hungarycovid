@@ -9,7 +9,11 @@ class App extends Component {
    render() {
       return (
          <>
-            <Nav />
+            <Nav listElements={[
+               {path: '', name: 'Főoldal'},
+               {path: 'covid19', name: 'Covid-19'},
+               {path: 'police-actions', name: 'Rendőri intézkedések'}
+            ]} />
             <main>
                <Routes />
             </main>

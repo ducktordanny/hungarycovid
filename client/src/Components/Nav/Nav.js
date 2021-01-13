@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Burger from '@animated-burgers/burger-squeeze';
 import '@animated-burgers/burger-squeeze/dist/styles.css';
 
-const Nav = () => {
+const Nav = ({listElements}) => {
    const [enableMenu, setEnableMenu] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
    const [selectedMenuPoint, setSelectedMenuPoint] = useState('');
@@ -45,6 +45,20 @@ const Nav = () => {
       setIsOpen(false);
    }, [selectedMenuPoint]);
 
+   const menuCloseEnded = (e) => {
+      e.target.classList.remove('menu-closed');
+   }
+
+   const showMenuPoints = () => {
+      return listElements.map(listElement => {
+         return (
+            <Link to={`/${listElement.path}`}>
+               <li>{listElement.name}</li>
+            </Link>
+         )
+      });
+   }
+
    return (
       <>
          <nav>
@@ -52,30 +66,14 @@ const Nav = () => {
                <img className='logo' src={Logo} alt='Logo' onClick={changeMenu} />
             </Link>
             <ul className='nav-links' onClick={changeMenu}>
-               <Link to='/'>
-                  <li>Főoldal</li>
-               </Link>
-               <Link to='/covid19'>
-                  <li>Covid-19</li>
-               </Link>
-               <Link to='police-actions'>
-                  <li>Rendőri intézkedések</li>
-               </Link>
+               { showMenuPoints() }
             </ul>
             <h2 className='selected-menu'>{selectedMenuPoint}</h2>
             <Burger className='burger-button' isOpen={isOpen} onClick={openClose} />
          </nav>
-         <div className={`menu ${isOpen ? 'menu-opened' : enableMenu ? 'menu-closed' : ''}`}>
+         <div className={`menu ${isOpen ? 'menu-opened' : enableMenu ? 'menu-closed' : ''}`} onAnimationEnd={menuCloseEnded} >
             <ul className='nav-links' onClick={changeMenu}>
-               <Link to='/'>
-                  <li>Főoldal</li>
-               </Link>
-               <Link to='/covid19'>
-                  <li>Covid-19</li>
-               </Link>
-               <Link to='police-actions'>
-                  <li>Rendőri intézkedések</li>
-               </Link>
+               { showMenuPoints() }
             </ul>
          </div>
       </>
