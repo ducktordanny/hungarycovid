@@ -180,3 +180,9 @@ a {
       border-bottom-left-radius: 30rem;
    }
 }
+
+@media only screen and (min-width: 600px) {
+   .menu {
+      display: none;
+   }
+}
