@@ -145,6 +145,7 @@ const update = async () => {
    await run().catch(console.dir);
 }
 setInterval(async () => {
+   console.log(`${new Date().toLocaleDateString()}: ${new Date().toLocaleTimeString()}`);
    await update();
    console.log('----------');
 }, 5 * 60 * 1000);
