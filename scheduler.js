@@ -119,7 +119,7 @@ const fetchTodayDatas = async () => {
    }
 
    // remove all records older than 7days
-   await collection.deleteOne({ lastUpdateInApi: { "$lt": new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } });
+   await collection.deleteOne({ lastUpdateInApi: { "$lt": new Date(Date.now() - 6 * 24 * 60 * 60 * 1000) } });
 }
 
 const isDateEqual = (date1, date2) => {
