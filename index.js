@@ -7,11 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-   res.json({'message': 'Hello Ducks! 🐣'});
-})
-
-app.get('/covid_datas', async (req, res) => {
+app.get('/', async (req, res) => {
    const { MongoClient } = require('mongodb');
    const DB_URL = process.env.MONGO_DB_URL;
    const client = await new MongoClient(DB_URL, { useUnifiedTopology: true });
