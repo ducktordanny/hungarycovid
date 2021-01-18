@@ -1,4 +1,4 @@
-const URL = 'http://localhost:5000/covid_datas';
+const URL = 'https://hungary-covid-api.herokuapp.com/';
 
 export async function getDatas() {
    const response = await fetch(URL);

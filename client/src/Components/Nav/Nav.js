@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Logo from './logo.png';
 import './Nav.css';
 
@@ -52,7 +52,7 @@ const Nav = ({listElements}) => {
    const showMenuPoints = () => {
       return listElements.map((listElement, i) => {
          return (
-            <Link key={i} to={`/${listElement.path}`}>
+            <Link key={i} to={`${listElement.path}`}>
                <li>{listElement.name}</li>
             </Link>
          )

@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const database = require('./db.js');
 require('dotenv').config();
 
 const app = express();
@@ -8,14 +7,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-   res.json({'message': 'Hello Ducks! 🐣'});
-})
-
-app.get('/covid_datas', async (req, res) => {
+app.get('/', async (req, res) => {
    const { MongoClient } = require('mongodb');
-   const { MONGO_DB_PASSWORD, MONGO_DB_NAME } = process.env;
-   const DB_URL = `mongodb+srv://Dnyyy:${MONGO_DB_PASSWORD}@cluster0.k6gho.mongodb.net/${MONGO_DB_NAME}?retryWrites=true&w=majority`;
+   const DB_URL = process.env.MONGO_DB_URL;
    const client = await new MongoClient(DB_URL, { useUnifiedTopology: true });
    try {
       console.log('Try to connect to database...');
@@ -38,12 +32,7 @@ app.get('/covid_datas', async (req, res) => {
    }
 });
 
-app.get('/database/update', async (req, res) => {
-   await database();
-   res.json('Database verification success...');
-});
-
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
    console.log(`Listening to port ${PORT}`);
 })
