@@ -3,10 +3,8 @@ const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const { MONGO_DB_PASSWORD, MONGO_DB_NAME } = process.env;
-
 const URL = 'https://koronavirus.gov.hu';
-const DB_URL = `mongodb+srv://Dnyyy:${MONGO_DB_PASSWORD}@cluster0.k6gho.mongodb.net/${MONGO_DB_NAME}?retryWrites=true&w=majority`;
+const DB_URL = process.env.MONGO_DB_URL;
 const client = new MongoClient(DB_URL, { useUnifiedTopology: true });
 
 const convertData = (data) => {
