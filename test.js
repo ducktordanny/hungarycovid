@@ -1,5 +1,15 @@
-const test = () => {
-   console.log(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000));
-}
+const { text } = require('body-parser');
+const express = require('express');
+const fetch = require('node-fetch');
 
-test();
+const app = express();
+
+app.use(express.json());
+
+const test = new Promise(async (req, resasd) => {
+   resasd('asdasdasda');
+});
+
+test.then(asd => {
+   console.log(asd.message);
+})

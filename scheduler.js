@@ -94,10 +94,10 @@ const fetchTodayDatas = async () => {
    let doc = dbRes[0];
 
    // verify if changing is necessary...
-   const lastUpdateHungaryDB = doc ? doc.lastUpdateInHungary : null;
+   const lastUpdateHungaryDB = doc ? new Date(doc.lastUpdateInHungary) : null;
    const lastUpdateHungary = scrappedData.lastUpdateInHungary;
 
-   const lastUpdateWorldDB = doc ? doc.lastUpdateInWorld : null;
+   const lastUpdateWorldDB = doc ? new Date(doc.lastUpdateInWorld) : null;
    const lastUpdateWorld = scrappedData.lastUpdateInWorld;
 
    if (doc && isDateEqual(lastUpdateHungary, lastUpdateHungaryDB) && isDateEqual(lastUpdateWorld, lastUpdateWorldDB)) {
@@ -109,6 +109,7 @@ const fetchTodayDatas = async () => {
          const dbResNewLast = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
          doc = dbResNewLast[0];
       }
+      console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
 
       scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
       scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
@@ -116,12 +117,17 @@ const fetchTodayDatas = async () => {
 
       await collection.insertOne(scrappedData);
       console.log('New data inserted to database...');
+      
+      const lastUpdateHunDate = new Date(scrappedData.lastUpdateInHungary).getDate();
+      const todayDate = new Date().getDate();
+
+      if (lastUpdateHunDate === todayDate) {
+         // remove all records older than 7days
+         await collection.deleteOne({ lastUpdateInApi: { "$lt": new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } });
+      }
    }
-
-   // remove all records older than 7days
-   await collection.deleteOne({ lastUpdateInApi: { "$lt": new Date(Date.now() - 6 * 24 * 60 * 60 * 1000) } });
 }
-
+   
 const isDateEqual = (date1, date2) => {
    return date1.toString() === date2.toString();
 }
