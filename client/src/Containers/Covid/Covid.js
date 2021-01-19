@@ -1,15 +1,19 @@
 import { Component } from 'react';
 import Chart from '../../Components/Chart';
+import Loading from '../../Components/Loading';
 import { getDatas } from '../../API';
 import LoadingGif from '../../loading.gif';
+import Cards from '../../Components/Cards/Cards';
 
 import './Covid.css';
 
 class Covid extends Component {
    state = {
+      fetchSuccess: false,
       dailyInfected: null,
       dailyTested: null,
-      dailyDeceased: null
+      dailyDeceased: null,
+      covid: null,
    }
 
    componentDidMount = async () => {
@@ -17,6 +21,9 @@ class Covid extends Component {
          const dayNumber = new Date(dateString).getDay();
          const hungarianDayNames = ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'];
          return hungarianDayNames[dayNumber];
+      }
+      const format = (number) => {
+         return new Intl.NumberFormat('hu-HU').format(number);
       }
 
       const result = await getDatas();
@@ -30,34 +37,50 @@ class Covid extends Component {
       const dailyDeceased = result.map(element => {
          return [ getDayName(element.lastUpdateInHungary), element.covid.deceasedToday ];
       });
-      
+      result.reverse();
+      const covid = [
+         {
+            title: 'Fertőzöttek',
+            data: format(result[0].covid.infected),
+         },
+         {
+            title: 'Mai új fertőzöttek',
+            data: format(result[0].covid.infectedToday),
+         },
+         {
+            title: 'Tegnapi új fertőzöttek',
+            data: format(result[1].covid.infectedToday),
+         },
+         {
+            title: 'Aktív fertőzöttek',
+            data: format(result[0].covid.activeInfected),
+         },
+         {
+            title: 'Fertőzöttek a világon',
+            data: format(result[0].covid.activeInfectedGlobal),
+         },
+      ];
       this.setState({
+         fetchSuccess: true,
          dailyInfected,
          dailyTested,
-         dailyDeceased
+         dailyDeceased,
+         covid,
       });
    }
 
    render() {
-      const { dailyInfected, dailyTested, dailyDeceased } = this.state;
+      const { fetchSuccess, dailyInfected, dailyTested, dailyDeceased, covid } = this.state;
       return (
-         <>
-            <div className='diagram'>{
-               dailyInfected
-               ? <Chart title={'Napi új fertőzöttek'} datas={dailyInfected} />
-               : <img className='loading' src={LoadingGif} alt='Loading...' />
-            }</div>
-            <div className='diagram'>{
-               dailyTested
-               ? <Chart title={'Napi új tesztelések'} datas={dailyTested} />
-               : <img className='loading' src={LoadingGif} alt='Loading...' />
-            }</div>
-            <div className='diagram'>{
-               dailyDeceased
-               ? <Chart title={'Napi új halálozások'} datas={dailyDeceased} />
-               : <img className='loading' src={LoadingGif} alt='Loading...' />
-            }</div>
+         fetchSuccess
+         ? <>
+            <Cards mainTitle={'Fertőzöttek'} datas={covid} />
+            
+            <Chart title={'Napi új fertőzöttek'} datas={dailyInfected} />
+            <Chart title={'Napi új tesztelések'} datas={dailyTested} />
+            <Chart title={'Napi új halálozások'} datas={dailyDeceased} />
          </>
+         : <Loading />
       )
    }
 }

@@ -1,5 +1,4 @@
-const test = () => {
-   console.log(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000));
-}
+require('dotenv').config();
 
-test();
+const date = new Date()
+console.log(date.toLocaleString('en-US', { timeZone: 'Europe/Berlin' }));

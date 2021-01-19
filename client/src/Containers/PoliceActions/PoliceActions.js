@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import Chart from '../../Components/Chart';
 import { getDatas } from '../../API';
-import LoadingGif from '../../loading.gif';
-import { element } from 'prop-types';
+import Loading from '../../Components/Loading';
 
 class PoliceActions extends Component {
    state = {
+      fetchSuccess: false,
       curfew: null,
       quarantine: null,
       maskWearing: null,
@@ -35,6 +35,7 @@ class PoliceActions extends Component {
       })
 
       this.setState({
+         fetchSuccess: true,
          curfew,
          quarantine,
          maskWearing,
@@ -43,6 +44,7 @@ class PoliceActions extends Component {
 
    render() {
       const {
+         fetchSuccess,
          curfew,
          quarantine,
          maskWearing,
@@ -51,23 +53,13 @@ class PoliceActions extends Component {
          // shopsRestaurantsPubs
       } = this.state;
       return (
-         <>
-            <div className='diagram'>{
-               curfew
-               ? <Chart title={'Kijárási tilalom megszegése'} datas={curfew} />
-               : <img className='loading' src={LoadingGif} alt='Loading...' />
-            }</div>
-            <div className='diagram'>{
-               quarantine
-               ? <Chart title={'Karantén megszegése'} datas={quarantine} />
-               : <img className='loading' src={LoadingGif} alt='Loading...' />
-            }</div>
-            <div className='diagram'>{
-               maskWearing
-               ? <Chart title={'Maszk hordás megszegése'} datas={maskWearing} />
-               : <img className='loading' src={LoadingGif} alt='Loading...' />
-            }</div>
+         fetchSuccess
+         ? <>
+            <Chart title={'Kijárási tilalom megszegése'} datas={curfew} />
+            <Chart title={'Karantén megszegése'} datas={quarantine} />
+            <Chart title={'Maszk hordás megszegése'} datas={maskWearing} />
          </>
+         : <Loading />
       )
    }
 }
