@@ -1,6 +1,6 @@
 import './Cards.css';
 
-const Cards = ({ mainTitle, datas }) => {
+const Cards = ({ mainTitle, datas, tag }) => {
    return(
       <section className='card-container'>
          <h2 className='main-title'>{mainTitle}</h2>
@@ -10,7 +10,8 @@ const Cards = ({ mainTitle, datas }) => {
                return(
                   <div className='card' key={ i }>
                      <h3>{ title }</h3>
-                     <p type='number'>{ data }</p>
+                     <div className='line'></div>
+                     <p type='number'>{ tag ? `${data} ${tag}` : data }</p>
                   </div>   
                )
             })

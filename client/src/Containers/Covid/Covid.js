@@ -2,7 +2,6 @@ import { Component } from 'react';
 import Chart from '../../Components/Chart';
 import Loading from '../../Components/Loading';
 import { getDatas } from '../../API';
-import LoadingGif from '../../loading.gif';
 import Cards from '../../Components/Cards/Cards';
 
 import './Covid.css';
@@ -13,7 +12,7 @@ class Covid extends Component {
       dailyInfected: null,
       dailyTested: null,
       dailyDeceased: null,
-      covid: null,
+      infected: null,
    }
 
    componentDidMount = async () => {
@@ -37,44 +36,41 @@ class Covid extends Component {
       const dailyDeceased = result.map(element => {
          return [ getDayName(element.lastUpdateInHungary), element.covid.deceasedToday ];
       });
+
       result.reverse();
-      const covid = [
-         {
+      const infected = [{
             title: 'Fertőzöttek',
             data: format(result[0].covid.infected),
-         },
-         {
+         },{
             title: 'Mai új fertőzöttek',
             data: format(result[0].covid.infectedToday),
-         },
-         {
+         },{
             title: 'Tegnapi új fertőzöttek',
             data: format(result[1].covid.infectedToday),
-         },
-         {
+         },{
             title: 'Aktív fertőzöttek',
             data: format(result[0].covid.activeInfected),
-         },
-         {
+         },{
             title: 'Fertőzöttek a világon',
             data: format(result[0].covid.activeInfectedGlobal),
          },
       ];
+
       this.setState({
          fetchSuccess: true,
          dailyInfected,
          dailyTested,
          dailyDeceased,
-         covid,
+         infected,
       });
    }
 
    render() {
-      const { fetchSuccess, dailyInfected, dailyTested, dailyDeceased, covid } = this.state;
+      const { fetchSuccess, dailyInfected, dailyTested, dailyDeceased, infected } = this.state;
       return (
          fetchSuccess
          ? <>
-            <Cards mainTitle={'Fertőzöttek'} datas={covid} />
+            <Cards mainTitle={'Fertőzöttek'} datas={infected} tag={'fő'} />
             
             <Chart title={'Napi új fertőzöttek'} datas={dailyInfected} />
             <Chart title={'Napi új tesztelések'} datas={dailyTested} />
