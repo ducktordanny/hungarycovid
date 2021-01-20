@@ -1,4 +1,4 @@
-const URL = 'https://hungary-covid-api.herokuapp.com/';
+const URL = 'https://hungary-covid-api.vercel.app/';
 
 export async function getDatas() {
    const response = await fetch(URL);

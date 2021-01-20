@@ -9,9 +9,9 @@ const Cards = ({ mainTitle, datas, tag }) => {
                const { title, data } = element;
                return(
                   <div className='card' key={ i }>
-                     <h3>{ title }</h3>
+                     <p>{ title }</p>
                      <div className='line'></div>
-                     <p type='number'>{ tag ? `${data} ${tag}` : data }</p>
+                     <h3>{ tag ? `${data} ${tag}` : data }</h3>
                   </div>   
                )
             })

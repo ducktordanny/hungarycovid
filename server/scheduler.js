@@ -109,7 +109,7 @@ const fetchTodayDatas = async () => {
          const dbResNewLast = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
          doc = dbResNewLast[0];
       }
-      console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
+      // console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
 
       scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
       scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
@@ -122,7 +122,8 @@ const fetchTodayDatas = async () => {
 
       if (lastUpdateHungary.getDate() === todayDate) {
          // remove all records older than 7days
-         await collection.deleteOne({ lastUpdateInApi: { "$lt": new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } });
+         const sevenDaysLater = new Date(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toLocaleDateString());
+         await collection.deleteOne({ lastUpdateInApi: { "$lt": sevenDaysLater } });
       }
    }
 }

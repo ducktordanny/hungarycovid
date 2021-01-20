@@ -13,7 +13,7 @@ class App extends Component {
          <>
             <Nav listElements={[
                {path: '/', name: 'Főoldal'},
-               {path: '/covid19', name: 'Covid-19'},
+               {path: '/covid19', name: 'Koronavírus'},
                {path: '/police-actions', name: 'Rendőri intézkedések'}
             ]} />
             <main>

@@ -1,31 +1,36 @@
 import { Chart as GoogleChart } from "react-google-charts";
 import LoadingGif from '../loading.gif';
+//https://stackoverflow.com/questions/37176219/how-to-change-google-chart-title-font-size
 
 const Chart = ({ title, datas }) => (
 	<section className='diagram'>
 		<GoogleChart
-			height={'400px'}
+			height={'100%'}
 			chartType="LineChart"
 			loader={<img className='loading' src={LoadingGif} alt='Loading...' />}
 			// data={[ ['x', title], ...datas ]}
 			columns={['x', title]}
 			rows={[...datas]}
 			options={{
-				title: title,
+				title: `${title}, az elmúlt egy hét adatai:`,
+				titleTextStyle: {
+					color: '#ffffff',
+					fontSize: 14
+				},
 				hAxis: {
-					title: 'Az elmúlt egy hét adatai',
+					// title: 'Az elmúlt egy hét adatai',
 					textStyle: {
-						color: '#3d3d3d'
+						color: '#ffffff'
 					}
 				},
 				vAxis: {
 					textStyle: {
-						color: '#3d3d3d'
+						color: '#ffffff'
 					}
 				},
-				pointSize: 3,
+				pointSize: 4,
 				curveType: 'function',
-				colors: ['#990000'],
+				colors: ['#00dd00'],
 				backgroundColor: 'transparent',
 				legend: 'none',
 			}}
@@ -33,6 +38,5 @@ const Chart = ({ title, datas }) => (
 		/>
 	</section>
 )
-
 
 export default Chart;

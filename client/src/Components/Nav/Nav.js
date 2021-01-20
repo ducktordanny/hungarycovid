@@ -26,7 +26,7 @@ const Nav = ({listElements}) => {
       let title = '';
       switch(path) {
          case '/': title ='Főoldal'; break;
-         case '/covid19': title = 'Covid-19'; break;
+         case '/covid19': title = 'Koronavírus'; break;
          case '/police-actions': title = 'Rendőri intézkedések'; break;
          default: title = 'Főoldal'; break;
       }
