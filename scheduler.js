@@ -65,8 +65,8 @@ const fetchTodayDatas = async () => {
       travelling: convertData($('#api-utazasi-korlatozasok-szam')),
       shopsRestaurantsPubs: convertData($('#api-rendorseg-szam')),
    }
-   const lastUpdateInHungary = new Date($('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', ''));
-   const lastUpdateInWorld = new Date($('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', ''));
+   const lastUpdateInHungary = new Date($('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim());
+   const lastUpdateInWorld = new Date($('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim());
 
    // get map
    // console.log('Fetching map...');
@@ -99,6 +99,8 @@ const fetchTodayDatas = async () => {
 
    const lastUpdateWorldDB = doc ? new Date(doc.lastUpdateInWorld) : null;
    const lastUpdateWorld = scrappedData.lastUpdateInWorld;
+
+   // collection.deleteMany({ lastUpdateInWorld: new Date('1970-01-01T00:00:00.000+00:00') });
 
    if (doc && isDateEqual(lastUpdateHungary, lastUpdateHungaryDB) && isDateEqual(lastUpdateWorld, lastUpdateWorldDB)) {
       console.log('Change is unnecessary...');
