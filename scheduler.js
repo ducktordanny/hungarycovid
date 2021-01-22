@@ -7,6 +7,10 @@ const URL = 'https://koronavirus.gov.hu';
 const { MONGO_DB_URL } = process.env;
 const client = new MongoClient(MONGO_DB_URL, { useUnifiedTopology: true });
 
+const today = new Date();
+today.setSeconds(0);
+today.setMilliseconds(0);
+
 const convertData = (data) => {
    return parseInt(data.text().split(' ').join(''));
 }
@@ -83,7 +87,7 @@ const fetchTodayDatas = async () => {
       countyMap,
       lastUpdateInHungary,
       lastUpdateInWorld,
-      lastUpdateInApi: new Date()
+      lastUpdateInApi: today
    }
 
    const db = client.db('covid_datas');
@@ -110,10 +114,8 @@ const fetchTodayDatas = async () => {
          doc = dbResNewLast[0];
       }
       // console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
-      
-      const todayDate = new Date().getDate();
-      
-      if (lastUpdateInHungary.getDate() === todayDate) {
+            
+      if (lastUpdateInHungary.getDate() === today.getDate()) {
          // insert new Data
          scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
          scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
