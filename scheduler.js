@@ -95,34 +95,33 @@ const fetchTodayDatas = async () => {
 
    // verify if changing is necessary...
    const lastUpdateHungaryDB = doc ? new Date(doc.lastUpdateInHungary) : null;
-   const lastUpdateHungary = scrappedData.lastUpdateInHungary;
-
    const lastUpdateWorldDB = doc ? new Date(doc.lastUpdateInWorld) : null;
-   const lastUpdateWorld = scrappedData.lastUpdateInWorld;
 
    // collection.deleteMany({ lastUpdateInWorld: new Date('1970-01-01T00:00:00.000+00:00') });
 
-   if (doc && isDateEqual(lastUpdateHungary, lastUpdateHungaryDB) && isDateEqual(lastUpdateWorld, lastUpdateWorldDB)) {
+   if (doc && isDateEqual(lastUpdateInHungary, lastUpdateHungaryDB) && isDateEqual(lastUpdateInWorld, lastUpdateWorldDB)) {
       console.log('Change is unnecessary...');
    } else {
-      if (doc && lastUpdateHungaryDB.getDate() === lastUpdateHungary.getDate() && lastUpdateWorldDB.getDate() === lastUpdateWorld.getDate()) {
+      // if (lastUpdateInHungary.getDate() === new Date().getDate())
+      if (doc && lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() && lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate()) {
          await collection.deleteOne({ _id: doc._id });
          console.log('Unnecessary data has been removed...');
          const dbResNewLast = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
          doc = dbResNewLast[0];
       }
       // console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
-
-      scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
-      scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
-      scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
-
-      await collection.insertOne(scrappedData);
-      console.log('New data inserted to database...');
       
       const todayDate = new Date().getDate();
+      
+      if (lastUpdateInHungary.getDate() === todayDate) {
+         // insert new Data
+         scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
+         scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
+         scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
+   
+         await collection.insertOne(scrappedData);
+         console.log('New data inserted to database...');
 
-      if (lastUpdateHungary.getDate() === todayDate) {
          // remove all records older than 7days
          const sevenDaysLater = new Date(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toLocaleDateString());
          await collection.deleteOne({ lastUpdateInApi: { "$lt": sevenDaysLater } });
