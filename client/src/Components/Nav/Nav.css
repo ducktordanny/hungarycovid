@@ -119,6 +119,7 @@ nav .selected-menu {
   transform: translateX(100%);
   display: flex;
   justify-content: center;
+  overflow: hidden;
   z-index: 9998;
 }
 .menu .nav-links {
