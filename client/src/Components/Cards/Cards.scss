@@ -10,6 +10,7 @@
       font-size: 2rem;
       text-align: center;
       text-shadow: 0 2px 12px black;
+
    }
    .card {
       width: 25%;
@@ -19,35 +20,92 @@
       padding: 2rem;
       text-align: center;
       border-radius: 1rem;
-      box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.1);
-      // background: linear-gradient(45deg, rgba(255, 255, 255, 0.8), rgba(120, 120, 120, 0.8));
-      // background: linear-gradient(45deg, rgb(195 193 193), rgb(123 33 29));
+      box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.2);
       background: linear-gradient(45deg, #ba9595, #872d28);
-      // color: rgb(60, 60, 60);
       transition: all 0.2s;
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      p {
+         font-size: 1.5rem;
+         margin-bottom: .5rem;
+      }
+
+      .line {
+         height: 2px;
+         width: 100%;
+         background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+      }
 
       h3 {
          font-size: 2rem;
          border-radius: 0.5rem;
          margin-top: 2rem;
       }
-      .line {
-         height: 2px;
-         width: 100%;
-         // background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.4), transparent);
-         background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
-      }
-      p {
-         font-size: 1.5rem;
-         margin-bottom: .5rem;
-      }
 
       @media (hover: hover) and (pointer: fine) {
          &:hover {
             transform: scale(1.02);
+         }
+      }
+   }
+
+   @media only screen and (max-width: 750px) {
+      .card {
+         max-width: 250px;
+         min-width: 175px;
+         margin: 0.75rem;
+         padding: 1.75rem;
+
+         p {
+            font-size: 1.25rem;
+         }
+
+         h3 {
+            font-size: 1.75rem;
+            margin-top: 1.75rem;
+         }
+      }
+   }
+
+   @media only screen and (max-width: 550px) {
+      .main-title {
+         font-size: 1.5rem;
+      }
+      .card {         
+         max-width: 200px;
+         min-width: 150px;
+         margin: 0.5rem;
+         padding: 1.5rem;
+
+         p {
+            font-size: 1rem;
+         }
+
+         h3 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+         }
+      }
+   }
+   @media only screen and (max-width: 450px) {
+      .main-title {
+         font-size: 1.25rem;
+      }
+      .card {
+         max-width: 175px;
+         min-width: 125px;
+         margin: 0.5rem;
+         padding: 1rem;
+
+         p {
+            font-size: 0.9rem;
+         }
+
+         h3 {
+            font-size: 1.15rem;
+            margin-top: 1.15rem;
          }
       }
    }

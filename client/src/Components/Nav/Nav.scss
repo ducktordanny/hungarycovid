@@ -1,4 +1,6 @@
 nav {
+   position: fixed;
+   width: 100%;
    user-select: none;
    background: linear-gradient(to right, rgb(83, 8, 8), rgb(169, 11, 11));
    color: white;
@@ -10,20 +12,26 @@ nav {
    z-index: 9999;
 
    .logo {
+      display: block;
       align-self: center;
       height: 3rem;
       padding: .7rem;
-      animation: rotate 30s linear infinite;
+      animation: rotate 15s linear infinite;
+      border-radius: 100%;
+      transition: all .4s;
 
-      &:hover {
-         cursor: pointer;
+      @media (hover: hover) and (pointer: fine) {
+         &:hover {
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+         }
       }
 
       @keyframes rotate {
-         0% {
+         from {
             transform: rotate(0deg);
          } 
-         100% {
+         to {
             transform: rotate(360deg);
          }
       }
@@ -115,7 +123,8 @@ nav {
 }
 
 .menu {
-   position: absolute;
+   position: fixed;
+   top: 60px;
    right: 0px;
    width: 60%;
    background: rgba(100, 0, 0, 0.6);
@@ -124,7 +133,7 @@ nav {
    transform: translateX(100%);
    display: flex;
    justify-content: center;
-   z-index: 9999;
+   z-index: 9998;
 
    .nav-links {
       display: flex;

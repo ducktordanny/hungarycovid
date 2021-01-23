@@ -12,7 +12,7 @@ const Cards = ({ mainTitle, datas, tag }) => {
                      <p>{ title }</p>
                      <div className='line'></div>
                      <h3>{ tag ? `${data} ${tag}` : data }</h3>
-                  </div>   
+                  </div>
                )
             })
          }

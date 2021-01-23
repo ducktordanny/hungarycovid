@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import Burger from '@animated-burgers/burger-squeeze';
 import '@animated-burgers/burger-squeeze/dist/styles.css';
 
+// check for outside click:
+// https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
+
 const Nav = ({listElements}) => {
    const [enableMenu, setEnableMenu] = useState(false);
    const [isOpen, setIsOpen] = useState(false);

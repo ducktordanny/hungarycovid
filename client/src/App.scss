@@ -9,32 +9,28 @@ html {
    overflow-y: auto;
 }
 
-html, body {
-   height: 100%;
-}
-
 html, body, #root {
    width: 100%;
 }
 
 body {
-   // background: rgb(152, 126, 126);
-   // background: #a08282;
    background: #cfc4c4;
    color: white;
    overflow-x: hidden;
    -webkit-overflow-x: hidden;
-   
+   min-height: 100vh;
+   min-height: -webkit-fill-available;
 }
 
 #root {
    position: relative;
-   min-height: 100%;
+   min-height: 100vh;
+   overflow: hidden;
 }
 
 main {
-   // height: 100px;
-   padding-bottom: 75px;
+   padding-top: 65px;
+   padding-bottom: 125px;
    padding-left: env(safe-area-inset-left);
    padding-right: env(safe-area-inset-right);
 }

@@ -1,7 +1,8 @@
 footer {
+  z-index: 1;
   position: absolute;
   width: 100%;
-  height: 75px;
+  height: 125px;
   bottom: 0;
   background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
   backdrop-filter: blur(15px);
@@ -10,6 +11,15 @@ footer {
 }
 footer label {
   align-self: center;
+  font-size: 1.5rem;
+}
+footer label span {
+  color: red;
+}
+@media only screen and (max-width: 450px) {
+  footer label {
+    font-size: 1rem;
+  }
 }
 
 /*# sourceMappingURL=Footer.css.map */

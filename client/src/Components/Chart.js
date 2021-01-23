@@ -1,5 +1,5 @@
 import { Chart as GoogleChart } from "react-google-charts";
-import LoadingGif from '../loading.gif';
+import Loading from './Loading';
 //https://stackoverflow.com/questions/37176219/how-to-change-google-chart-title-font-size
 
 const Chart = ({ title, datas }) => (
@@ -7,7 +7,7 @@ const Chart = ({ title, datas }) => (
 		<GoogleChart
 			height={'100%'}
 			chartType="LineChart"
-			loader={<img className='loading' src={LoadingGif} alt='Loading...' />}
+			loader={<Loading />}
 			// data={[ ['x', title], ...datas ]}
 			columns={['x', title]}
 			rows={[...datas]}
@@ -29,7 +29,7 @@ const Chart = ({ title, datas }) => (
 					}
 				},
 				pointSize: 4,
-				curveType: 'function',
+				// curveType: 'function',
 				colors: ['#00dd00'],
 				backgroundColor: 'transparent',
 				legend: 'none',

@@ -2,7 +2,7 @@ import LoadingGif from '../loading.gif';
 
 const Loading = () => (
 		<img style={{
-			width: '50px',
+			width: '35px',
 			padding: '50px',
 			position: 'relative',
 			display: 'inline-block',
