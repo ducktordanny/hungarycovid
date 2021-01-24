@@ -107,7 +107,7 @@ const fetchTodayDatas = async () => {
       console.log('Change is unnecessary...');
    } else {
       // if (lastUpdateInHungary.getDate() === new Date().getDate())
-      if (doc && lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() && lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate()) {
+      if (doc && (lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() || lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate())) {
          await collection.deleteOne({ _id: doc._id });
          console.log('Unnecessary data has been removed...');
          const dbResNewLast = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
