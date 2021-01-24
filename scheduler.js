@@ -114,15 +114,15 @@ const fetchTodayDatas = async () => {
          doc = dbResNewLast[0];
       }
       // console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
+      scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
+      scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
+      scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
+
+      await collection.insertOne(scrappedData);
+      console.log('New data inserted to database...');
             
       if (lastUpdateInHungary.getDate() === today.getDate()) {
          // insert new Data
-         scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
-         scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
-         scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
-   
-         await collection.insertOne(scrappedData);
-         console.log('New data inserted to database...');
 
          // remove all records older than 7days
          const sevenDaysLater = new Date(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toLocaleDateString());
