@@ -107,22 +107,22 @@ const fetchTodayDatas = async () => {
       console.log('Change is unnecessary...');
    } else {
       // if (lastUpdateInHungary.getDate() === new Date().getDate())
-      if (doc && lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() && lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate()) {
+      if (doc && (lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() || lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate())) {
          await collection.deleteOne({ _id: doc._id });
          console.log('Unnecessary data has been removed...');
          const dbResNewLast = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
          doc = dbResNewLast[0];
       }
       // console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
+      scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
+      scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
+      scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
+
+      await collection.insertOne(scrappedData);
+      console.log('New data inserted to database...');
             
       if (lastUpdateInHungary.getDate() === today.getDate()) {
          // insert new Data
-         scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
-         scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
-         scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
-   
-         await collection.insertOne(scrappedData);
-         console.log('New data inserted to database...');
 
          // remove all records older than 7days
          const sevenDaysLater = new Date(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toLocaleDateString());
@@ -130,7 +130,7 @@ const fetchTodayDatas = async () => {
       }
    }
 }
-   
+  
 const isDateEqual = (date1, date2) => {
    return date1.toString() === date2.toString();
 }

@@ -2,8 +2,12 @@
 
 ## To do:
 
-* [ ] Finish route containers
-* [ ] Server side refreshes
+* [x] Finish route containers
+* [x] Server side refreshes
+
+## Issue:
+
+* [ ] Heroku Scheduler not refreshing... It gets a connect ETIMEOUT (https://stackoverflow.com/questions/33350604/what-could-cause-connect-etimedout-error-when-the-url-is-working-in-browser)
 
 Check these (not sure if it is required):
 
