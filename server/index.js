@@ -11,7 +11,7 @@ let cachedData = null;
 let cachedTime = null;
 
 app.get('/', async (req, res) => {
-   if (cachedTime && cachedTime > Date.now() - 60 * 1000) {
+   if (cachedTime && cachedTime > Date.now() - 30 * 1000) {
       res.send(cachedData);
    } else {
       const { MongoClient } = require('mongodb');
