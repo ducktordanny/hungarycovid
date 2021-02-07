@@ -4,10 +4,10 @@
 
 * [x] Finish route containers
 * [x] Server side refreshes
+* [x] API refresh after 30 mins of cachedTime
 * [ ] Map's link not available after a day. Somehow I should save it.
-* [ ] API refresh after 30 mins of cachedTime
 * [ ] Check for any bug or issue before publish. Optimization.
-* [ ] Publish
+* [ ] Git publish
 
 ## Issue:
 
