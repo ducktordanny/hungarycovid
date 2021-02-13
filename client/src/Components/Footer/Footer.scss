@@ -9,12 +9,24 @@ footer {
    display: flex;
    justify-content: center;
 
+   img {
+      align-self: center;
+      height: 50px;
+      width: 50px;
+
+      @media only screen and (max-width: 450px) {
+         height: 40px;
+         width: 40px;
+      }
+   }
    label {
+      padding: .5rem .5rem 0;
       align-self: center;
       font-size: 1.5rem;
-
-      span {
-         color: red;
+      
+      a {
+         text-decoration: underline;
+         cursor: pointer;
       }
 
       @media only screen and (max-width: 450px) {
