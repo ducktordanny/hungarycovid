@@ -11,15 +11,18 @@ class App extends Component {
    render() {
       return (
          <>
-            <Nav listElements={[
+            <div className='issue-message'>
+               <h1>Working on issues. Come back later!</h1>
+            </div>
+            {/* <Nav listElements={[
                {path: '/', name: 'Főoldal'},
                {path: '/covid19', name: 'Koronavírus'},
                {path: '/police-actions', name: 'Rendőri intézkedések'}
-            ]} />
-            <main>
+            ]} /> */}
+            {/* <main>
                <Routes />
-            </main>
-            <Footer />
+            </main> */}
+            {/* <Footer /> */}
          </>
       )
    }

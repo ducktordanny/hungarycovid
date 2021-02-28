@@ -26,6 +26,7 @@ body {
    position: relative;
    min-height: 100vh;
    overflow: hidden;
+   // border: 1px solid red;
 }
 
 main {
@@ -33,4 +34,16 @@ main {
    padding-bottom: 125px;
    padding-left: env(safe-area-inset-left);
    padding-right: env(safe-area-inset-right);
+}
+
+.issue-message {
+   display: flex;
+   height: 100vh;
+   justify-content: center;
+   align-items: center;
+   color: red;
+   h1 {
+      text-align: center;
+   }
+   // border: 1px solid red;
 }

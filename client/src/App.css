@@ -35,4 +35,15 @@ main {
   padding-right: env(safe-area-inset-right);
 }
 
+.issue-message {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
+.issue-message h1 {
+  text-align: center;
+}
+
 /*# sourceMappingURL=App.css.map */
