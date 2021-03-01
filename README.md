@@ -12,5 +12,8 @@
    * [x] Get daily datas
    * [x] Delete records after more than 7 days.
 * [x] Make express api.
-* [ ] Fix errors... (https://stackoverflow.com/questions/59657450/mongoerror-topology-is-closed-please-connect)
-* [ ] It should run locally (or heroku-scheduler) every 5 minutes.
+* [x] Fix errors... (https://stackoverflow.com/questions/59657450/mongoerror-topology-is-closed-please-connect)
+* [x] It should run locally (or heroku-scheduler) every 5 minutes.
+* [x] Backup database
+* [ ] Removed wrong data issue
+   * [ ] Frequent verification if fixes are working

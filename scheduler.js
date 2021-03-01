@@ -92,9 +92,12 @@ const fetchTodayDatas = async () => {
 
    const db = client.db('covid_datas');
    const collection = db.collection('test');
+   const backupCollection = db.collection('backup');
 
    // console.log('Get last data...');
-   const dbRes = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
+   // get last data from database
+   // const dbRes = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
+   const dbRes = await (await collection.find({}).toArray()).reverse();
    let doc = dbRes[0];
 
    // verify if changing is necessary...
@@ -107,7 +110,10 @@ const fetchTodayDatas = async () => {
       console.log('Change is unnecessary...');
    } else {
       // if (lastUpdateInHungary.getDate() === new Date().getDate())
-      if (doc && (lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() || lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate())) {
+      if (doc && (lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() || lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate()) && lastUpdateHungaryDB.getDate() === today.getDate()) {
+         // save data what we are gonna delete...
+         await backupCollection.insertOne(doc);
+         console.log('Backup made for unnecessary data...');
          await collection.deleteOne({ _id: doc._id });
          console.log('Unnecessary data has been removed...');
          const dbResNewLast = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
@@ -130,7 +136,7 @@ const fetchTodayDatas = async () => {
       }
    }
 }
-   
+  
 const isDateEqual = (date1, date2) => {
    return date1.toString() === date2.toString();
 }
