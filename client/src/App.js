@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import './App.css';
 
-import Nav from './Components/Nav/Nav';
-import Routes from './Components/Routes/Routes';
-import Footer from './Components/Footer/Footer';
+// import Nav from './Components/Nav/Nav';
+// import Routes from './Components/Routes/Routes';
+// import Footer from './Components/Footer/Footer';
 
 // https://www.modeo.co/blog/2015/1/8/heroku-scheduler-with-nodejs-tutorial
 

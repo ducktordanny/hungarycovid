@@ -14,3 +14,6 @@
 * [x] Make express api.
 * [x] Fix errors... (https://stackoverflow.com/questions/59657450/mongoerror-topology-is-closed-please-connect)
 * [x] It should run locally (or heroku-scheduler) every 5 minutes.
+* [x] Backup database
+* [ ] Removed wrong data issue
+   * [ ] Frequent verification if fixes are working
