@@ -69,12 +69,27 @@ const fetchTodayDatas = async () => {
       travelling: convertData($('#api-utazasi-korlatozasok-szam')),
       shopsRestaurantsPubs: convertData($('#api-rendorseg-szam')),
    }
-   const lastUpdateInHungary = new Date($('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim());
-   const lastUpdateInWorld = new Date($('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim());
+   
+   let $hunDateString = $('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
+   let $worldDateString = $('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
+   
+   // id date string is invalid (e.g. because of a dot what should be there but its not)
+   if ($worldDateString.split('').filter(x => x === '.').length < 3) {
+      $worldDateString = $worldDateString.split(/\s/).join('. ');
+   }
+   if ($hunDateString.split('').filter(x => x === '.').length < 3) {
+      $hunDateString = $hunDateString.split(/\s/).join('. ');
+   }
+   
+   const lastUpdateInHungary = new Date($hunDateString);
+   const lastUpdateInWorld = new Date($worldDateString);
 
+   // console.log(lastUpdateInHungary, lastUpdateInWorld);
+   
+   // throw new Error('Just testing');
+   
    // get map
    // console.log('Fetching map...');
-
    const mapResponse = await fetch(`${URL}/terkepek/fertozottek`);
    const mapBody = await mapResponse.text();
    const $map = cheerio.load(mapBody);
@@ -94,6 +109,7 @@ const fetchTodayDatas = async () => {
    const collection = db.collection('test');
    const backupCollection = db.collection('backup');
 
+
    // console.log('Get last data...');
    // get last data from database
    // const dbRes = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
@@ -110,7 +126,7 @@ const fetchTodayDatas = async () => {
       console.log('Change is unnecessary...');
    } else {
       // if (lastUpdateInHungary.getDate() === new Date().getDate())
-      if (doc && (lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() || lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate()) && lastUpdateHungaryDB.getDate() === today.getDate()) {
+      if (doc && (lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() || lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate()) && (lastUpdateHungaryDB.getDate() === today.getDate() || lastUpdateInWorldDB.getDate() === today.getDate())) {
          // save data what we are gonna delete...
          await backupCollection.insertOne(doc);
          console.log('Backup made for unnecessary data...');
@@ -120,9 +136,15 @@ const fetchTodayDatas = async () => {
          doc = dbResNewLast[0];
       }
       // console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
-      scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
-      scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
-      scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
+      if (lastUpdateHungary.getDate() !== today.getDate()) {
+         scrappedData.covid['infectedToday'] = doc ? doc.covid.infected : null;
+         scrappedData.covid['testedToday'] = doc ? doc.covid.tested : null;
+         scrappedData.covid['deceasedToday'] = doc ? doc.covid.deceased : null;
+      } else {
+         scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
+         scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
+         scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
+      }
 
       await collection.insertOne(scrappedData);
       console.log('New data inserted to database...');
@@ -133,6 +155,7 @@ const fetchTodayDatas = async () => {
          // remove all records older than 7days
          const sevenDaysLater = new Date(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toLocaleDateString());
          await collection.deleteOne({ lastUpdateInApi: { "$lt": sevenDaysLater } });
+         await backupCollection.deleteOne({ lastUpdateInApi: { "$lt": sevenDaysLater } });
       }
    }
 }
