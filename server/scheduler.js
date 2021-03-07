@@ -23,6 +23,8 @@ const fetchTodayDatas = async () => {
 
    const $ = cheerio.load(body);
 
+   const vaccinated = convertData($('#api-beoltottak'));
+
    const activeInfectedBudapest = convertData($('#api-fertozott-pest'));
    const activeInfectedCountry = convertData($('#api-fertozott-videk'));
    const activeInfectedGlobal = convertData($('#api-fertozott-global'));
@@ -44,6 +46,7 @@ const fetchTodayDatas = async () => {
    const tested = convertData($('#api-mintavetel'));
 
    const covid = {
+      vaccinated,
       activeInfectedBudapest,
       activeInfectedCountry,
       activeInfectedGlobal,
@@ -126,7 +129,8 @@ const fetchTodayDatas = async () => {
       console.log('Change is unnecessary...');
    } else {
       // if (lastUpdateInHungary.getDate() === new Date().getDate())
-      if (doc && (hunUpdateInDB.getDate() === lastUpdateInHungary.getDate() || worldUpdateInDB.getDate() === lastUpdateInWorld.getDate()) && (hunUpdateInDB.getDate() === today.getDate() || worldUpdateInDB.getDate() === today.getDate())) {
+      if (doc && (hunUpdateInDB.getDate() === lastUpdateInHungary.getDate() || worldUpdateInDB.getDate() === lastUpdateInWorld.getDate())
+      && (hunUpdateInDB.getDate() === today.getDate() || worldUpdateInDB.getDate() === today.getDate())) {
          // save data what we are gonna delete...
          await backupCollection.insertOne(doc);
          console.log('Backup made for unnecessary data...');
@@ -136,7 +140,7 @@ const fetchTodayDatas = async () => {
          doc = dbResNewLast[0];
       }
       // console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
-      if (lastUpdateHungary.getDate() !== today.getDate()) {
+      if (lastUpdateInHungary.getDate() !== today.getDate()) {
          scrappedData.covid['infectedToday'] = doc ? doc.covid.infected : null;
          scrappedData.covid['testedToday'] = doc ? doc.covid.tested : null;
          scrappedData.covid['deceasedToday'] = doc ? doc.covid.deceased : null;
