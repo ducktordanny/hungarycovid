@@ -117,16 +117,16 @@ const fetchTodayDatas = async () => {
    let doc = dbRes[0];
 
    // verify if changing is necessary...
-   const lastUpdateHungaryDB = doc ? new Date(doc.lastUpdateInHungary) : null;
-   const lastUpdateWorldDB = doc ? new Date(doc.lastUpdateInWorld) : null;
+   const hunUpdateInDB = doc ? new Date(doc.lastUpdateInHungary) : null;
+   const worldUpdateInDB = doc ? new Date(doc.lastUpdateInWorld) : null;
 
    // collection.deleteMany({ lastUpdateInWorld: new Date('1970-01-01T00:00:00.000+00:00') });
 
-   if (doc && isDateEqual(lastUpdateInHungary, lastUpdateHungaryDB) && isDateEqual(lastUpdateInWorld, lastUpdateWorldDB)) {
+   if (doc && isDateEqual(lastUpdateInHungary, hunUpdateInDB) && isDateEqual(lastUpdateInWorld, worldUpdateInDB)) {
       console.log('Change is unnecessary...');
    } else {
       // if (lastUpdateInHungary.getDate() === new Date().getDate())
-      if (doc && (lastUpdateHungaryDB.getDate() === lastUpdateInHungary.getDate() || lastUpdateWorldDB.getDate() === lastUpdateInWorld.getDate()) && (lastUpdateHungaryDB.getDate() === today.getDate() || lastUpdateInWorldDB.getDate() === today.getDate())) {
+      if (doc && (hunUpdateInDB.getDate() === lastUpdateInHungary.getDate() || worldUpdateInDB.getDate() === lastUpdateInWorld.getDate()) && (hunUpdateInDB.getDate() === today.getDate() || worldUpdateInDB.getDate() === today.getDate())) {
          // save data what we are gonna delete...
          await backupCollection.insertOne(doc);
          console.log('Backup made for unnecessary data...');
