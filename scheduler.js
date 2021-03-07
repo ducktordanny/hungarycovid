@@ -69,12 +69,27 @@ const fetchTodayDatas = async () => {
       travelling: convertData($('#api-utazasi-korlatozasok-szam')),
       shopsRestaurantsPubs: convertData($('#api-rendorseg-szam')),
    }
-   const lastUpdateInHungary = new Date($('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim());
-   const lastUpdateInWorld = new Date($('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim());
+   
+   let $hunDateString = $('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
+   let $worldDateString = $('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
+   
+   // id date string is invalid (e.g. because of a dot what should be there but its not)
+   if ($worldDateString.split('').filter(x => x === '.').length < 3) {
+      $worldDateString = $worldDateString.split(/\s/).join('. ');
+   }
+   if ($hunDateString.split('').filter(x => x === '.').length < 3) {
+      $hunDateString = $hunDateString.split(/\s/).join('. ');
+   }
+   
+   const lastUpdateInHungary = new Date($hunDateString);
+   const lastUpdateInWorld = new Date($worldDateString);
 
+   // console.log(lastUpdateInHungary, lastUpdateInWorld);
+   
+   // throw new Error('Just testing');
+   
    // get map
    // console.log('Fetching map...');
-
    const mapResponse = await fetch(`${URL}/terkepek/fertozottek`);
    const mapBody = await mapResponse.text();
    const $map = cheerio.load(mapBody);
