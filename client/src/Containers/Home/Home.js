@@ -25,19 +25,18 @@ class Home extends Component {
       const { countyMap } = result[0];
 
       const newsHungary = [{
-         title: 'Mai halálozások',
-         data: format(result[0].covid.deceasedToday),
-      }, {
          title: 'Mai fertőzöttek',
          data: format(result[0].covid.infectedToday),
       }, {
          title: 'Mai tesztek',
          data: format(result[0].covid.testedToday),
       }, {
+         title: 'Mai halálozások',
+         data: format(result[0].covid.deceasedToday),
+      }, {
          title: 'Beoltott emberek száma',
-            data: format(result[0].covid.vaccinated),
-         }
-      ];
+         data: format(result[0].covid.vaccinated),
+      }, ];
       
       const newsGlobal = [{
          title: 'Fertőzöttek',

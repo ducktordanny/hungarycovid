@@ -51,6 +51,7 @@
     min-width: 175px;
     margin: 0.75rem;
     padding: 1.75rem;
+    border-radius: 0.8rem;
   }
   .card-container .card p {
     font-size: 1.25rem;
