@@ -141,10 +141,12 @@ const fetchTodayDatas = async () => {
       }
       // console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
       if (lastUpdateInHungary.getDate() !== today.getDate()) {
-         scrappedData.covid['infectedToday'] = doc ? doc.covid.infected : null;
-         scrappedData.covid['testedToday'] = doc ? doc.covid.tested : null;
-         scrappedData.covid['deceasedToday'] = doc ? doc.covid.deceased : null;
+         scrappedData.covid['vaccinatedToday'] = doc ? doc.covid.vaccinatedToday : null;
+         scrappedData.covid['infectedToday'] = doc ? doc.covid.infectedToday : null;
+         scrappedData.covid['testedToday'] = doc ? doc.covid.testedToday : null;
+         scrappedData.covid['deceasedToday'] = doc ? doc.covid.deceasedToday : null;
       } else {
+         scrappedData.covid['vaccinatedToday'] = doc ? scrappedData.covid.vaccinated - doc.covid.vaccinated : null;
          scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
          scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
          scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
