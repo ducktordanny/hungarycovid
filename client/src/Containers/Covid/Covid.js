@@ -16,6 +16,7 @@ class Covid extends Component {
       deceased: null,
       tested: null,
       recovered: null,
+      vaccinated: null,
    }
 
    componentWillUnmount = () => {
@@ -33,7 +34,12 @@ class Covid extends Component {
       }
 
       const result = await getDatas();
-      
+
+      // if we had world update today but still not in Hungary (in Chart we would have 2 today)
+      if (result.length === 8) {
+         result.splice(7, 1);
+      }
+
       const dailyInfected = result.map(element => {
          return [ getDayName(element.lastUpdateInHungary), element.covid.infectedToday ];
       });
@@ -95,7 +101,15 @@ class Covid extends Component {
       }, {
          title: 'Gyógyultak a világon',
          data: format(result[0].covid.recoveredGlobal)
-      }]
+      }];
+
+      const vaccinated = [{
+         title: 'Összesen beoltottak',
+         data: format(result[0].covid.vaccinated),
+      }, {
+         title: 'Ma beoltottak',
+         data: format(result[0].covid.vaccinatedToday),
+      }];
 
       this.setState({
          fetchSuccess: true,
@@ -106,6 +120,7 @@ class Covid extends Component {
          deceased,
          tested,
          recovered,
+         vaccinated,
       });
    }
 
@@ -119,6 +134,7 @@ class Covid extends Component {
          deceased,
          tested,
          recovered,
+         vaccinated,
       } = this.state;
 
       return (
@@ -128,6 +144,7 @@ class Covid extends Component {
             <Cards mainTitle={'Halálozások'} datas={deceased} tag={'fő'} />
             <Cards mainTitle={'Tesztelések'} datas={tested} tag={'fő'} />
             <Cards mainTitle={'Gyógyultak'} datas={recovered} tag={'fő'} />
+            <Cards mainTitle={'Beoltottak száma'} datas={vaccinated} tag={'fő'} />
 
             <Chart title={'Napi új fertőzöttek'} datas={dailyInfected} />
             <Chart title={'Napi új tesztelések'} datas={dailyTested} />

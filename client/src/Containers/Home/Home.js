@@ -34,8 +34,8 @@ class Home extends Component {
          title: 'Mai halálozások',
          data: format(result[0].covid.deceasedToday),
       }, {
-         title: 'Beoltott emberek száma',
-         data: format(result[0].covid.vaccinated),
+         title: 'Mai beoltottak',
+         data: format(result[0].covid.vaccinatedToday),
       }, ];
       
       const newsGlobal = [{

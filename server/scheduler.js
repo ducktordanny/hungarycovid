@@ -160,7 +160,7 @@ const fetchTodayDatas = async () => {
 
          // remove all records older than 7days
          const sevenDaysLater = new Date(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toLocaleDateString());
-         await collection.deleteOne({ lastUpdateInApi: { "$lt": sevenDaysLater } });
+         await collection.deleteOne({ lastUpdateInHungary: { "$lt": sevenDaysLater } });
          await backupCollection.deleteOne({ lastUpdateInApi: { "$lt": sevenDaysLater } });
       }
    }
