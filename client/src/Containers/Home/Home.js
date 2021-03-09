@@ -2,6 +2,7 @@ import { Component } from 'react';
 
 import Cards from '../../Components/Cards/Cards';
 import Loading from '../../Components/Loading';
+import Footer from '../../Components/Footer/Footer';
 import { getDatas } from '../../API';
 import '../Pages.css';
 
@@ -96,6 +97,7 @@ class Home extends Component {
                      <Cards mainTitle={ lastUpdateInHungary } datas={ newsHungary } tag={ 'fő' } />
                      <Cards mainTitle={ lastUpdateInWorld } datas={ newsGlobal } tag={ 'fő' } />
                      <section className='map-container'><img className='map' src={ countyMap } alt='map' /></section>
+                     <Footer />
                   </div>
                : <Loading />
             }

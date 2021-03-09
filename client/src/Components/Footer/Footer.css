@@ -2,17 +2,19 @@ footer {
   z-index: 1;
   position: absolute;
   width: 100%;
-  height: 125px;
   bottom: 0;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+  padding: 2rem 0 2rem;
+  background: linear-gradient(to right, rgba(71, 4, 4, 0.5), rgba(54, 3, 3, 0.2));
   backdrop-filter: blur(15px);
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 footer img {
   align-self: center;
   height: 50px;
   width: 50px;
+  margin-top: 1rem;
 }
 @media only screen and (max-width: 450px) {
   footer img {
@@ -21,9 +23,9 @@ footer img {
   }
 }
 footer label {
-  padding: 0.5rem 0.5rem 0;
   align-self: center;
   font-size: 1.5rem;
+  margin-top: 0.1rem;
 }
 footer label a {
   text-decoration: underline;

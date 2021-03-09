@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import Chart from '../../Components/Chart';
 import Loading from '../../Components/Loading';
+import Footer from '../../Components/Footer/Footer';
 import { getDatas } from '../../API';
 import Cards from '../../Components/Cards/Cards';
 
@@ -149,6 +150,8 @@ class Covid extends Component {
             <Chart title={'Napi új fertőzöttek'} datas={dailyInfected} />
             <Chart title={'Napi új tesztelések'} datas={dailyTested} />
             <Chart title={'Napi új halálozások'} datas={dailyDeceased} />
+
+            <Footer />
          </>
          : <Loading />
       )

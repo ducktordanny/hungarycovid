@@ -4,7 +4,8 @@ import './Footer.css';
 
 const Footer = () => (
    <footer>
-      <label htmlFor="footer">Made by <a href='https://github.com/ducktorD'>ducktorD</a></label>
+      <label htmlFor='footer-made-by'>Made by <a href='https://github.com/ducktorD'>ducktorD</a>.</label>
+      <label htmlFor='footer-year'>{ new Date().getFullYear() }.</label>
       <img src={ ducktorLogo } alt='ducktorD logo' />
    </footer>
 )

@@ -2,6 +2,7 @@ import { Component } from 'react';
 import Chart from '../../Components/Chart';
 import { getDatas } from '../../API';
 import Loading from '../../Components/Loading';
+import Footer from '../../Components/Footer/Footer';
 
 class PoliceActions extends Component {
    state = {
@@ -68,6 +69,8 @@ class PoliceActions extends Component {
             <Chart title={'Maszk hordás megszegése'} datas={maskWearing} />
             <Chart title={'Bolti nyitvatartási korlátozás megszegése'} datas={storeOpeningHours} />
             <Chart title={'Utazási korlátozás megszegése'} datas={travelling} />
+
+            <Footer />
          </>
          : <Loading />
       )
