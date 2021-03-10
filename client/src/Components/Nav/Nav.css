@@ -47,17 +47,16 @@ nav .nav-links li {
   -webkit-border-radius: 1rem;
   padding: 0.5rem 1.5rem;
   transition: all 0.2s ease;
+  box-shadow: 0px 5px 5px -2.5px transparent;
 }
 @media (hover: hover) and (pointer: fine) {
   nav .nav-links li:hover {
     cursor: pointer;
     background: rgba(255, 255, 255, 0.1);
-    font-size: 1.6rem;
   }
 }
 nav .nav-links li:active {
   background: rgba(255, 255, 255, 0.2);
-  font-size: 1.55rem;
 }
 nav .nav-links .selected {
   box-shadow: 0px 5px 5px -2.5px white;

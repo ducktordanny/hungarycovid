@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
+const { count } = require('console');
 require('dotenv').config();
 
 const URL = 'https://koronavirus.gov.hu';
@@ -98,6 +99,7 @@ const fetchTodayDatas = async () => {
    const $map = cheerio.load(mapBody);
 
    const countyMap = $map('.view-terkepek .view-content img').attr('src');
+   console.log(countyMap);
 
    const scrappedData = {
       covid,
@@ -111,7 +113,6 @@ const fetchTodayDatas = async () => {
    const db = client.db('covid_datas');
    const collection = db.collection('test');
    const backupCollection = db.collection('backup');
-
 
    // console.log('Get last data...');
    // get last data from database
