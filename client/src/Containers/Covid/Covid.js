@@ -35,7 +35,7 @@ class Covid extends Component {
       }
 
       const result = await getDatas();
-
+      console.log(result);
       // if we had world update today but still not in Hungary (in Chart we would have 2 today)
       if (result.length === 8) {
          result.splice(7, 1);

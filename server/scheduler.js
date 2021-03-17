@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
-const { count } = require('console');
+const { sendDiscordMessage } = require('./notidication');
 require('dotenv').config();
 
 const URL = 'https://koronavirus.gov.hu';
@@ -16,9 +16,16 @@ const convertData = (data) => {
    return parseInt(data.text().split(' ').join(''));
 }
 
-const fetchTodayDatas = async () => {
-   // console.log('Fetching datas...');
+const formatNumber = (number) => {
+   return new Intl.NumberFormat('hu-HU').format(number);
+};
 
+const formatDate = (dateString) => {
+   return new Date(dateString).toLocaleString('hu-HU');
+};
+
+const fetchTodayDatas = async () => {
+   // Fetching data...
    const response = await fetch(URL);
    const body = await response.text();
 
@@ -99,7 +106,7 @@ const fetchTodayDatas = async () => {
    const $map = cheerio.load(mapBody);
 
    const countyMap = $map('.view-terkepek .view-content img').attr('src');
-   console.log(countyMap);
+   // console.log(countyMap);
 
    const scrappedData = {
       covid,
@@ -151,6 +158,11 @@ const fetchTodayDatas = async () => {
          scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
          scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
          scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
+
+         const { infectedToday, infected, testedToday, tested, deceasedToday, deceased, quarantined, recovered, activeInfected, vaccinated, vaccinatedToday } = scrappedData.covid;
+         const { lastUpdateInHungary } = scrappedData;
+         const notificationMessage = `A mai napon (${formatDate(lastUpdateInHungary)}) újabb **${formatNumber(infectedToday)}** beteget azonosítottak Magyarországon, így a fertőzöttek száma **${formatNumber(infected)}** főre, míg az aktív betegek száma **${formatNumber(activeInfected)}** főre változott és újabb **${formatNumber(deceasedToday)}** ember vesztette életét, mellyel eddig összesen **${formatNumber(deceased)}** áldozatot követelt a vírus. Továbbá a mai napon **${formatNumber(testedToday)}** mintavételre került sor és ezzel eddig összesen **${formatNumber(tested)}** ember lett tesztelve. A gyógyultak száma jelenleg **${formatNumber(recovered)}** főre nött, illetve **${formatNumber(quarantined)}** fő van hatósági házi karanténban. A mai napon **${formatNumber(vaccinatedToday)}** ember kapta meg valamelyik oltóanyag egyikét, ezzel összesen eddig **${formatNumber(vaccinated)}** ember lett beoltva.`;
+         await sendDiscordMessage(notificationMessage);
       }
 
       await collection.insertOne(scrappedData);

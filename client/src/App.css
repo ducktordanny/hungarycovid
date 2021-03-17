@@ -38,12 +38,27 @@ main {
 .issue-message {
   display: flex;
   height: 100vh;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   color: red;
 }
 .issue-message h1 {
   text-align: center;
+}
+.issue-message .loading {
+  left: 0;
+  transform: none;
+  width: 50px;
+}
+
+.loading {
+  width: 35px;
+  padding: 50px;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /*# sourceMappingURL=App.css.map */
