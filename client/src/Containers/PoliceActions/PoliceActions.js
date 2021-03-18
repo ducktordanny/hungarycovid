@@ -1,11 +1,12 @@
 import { Component } from 'react';
 import Chart from '../../Components/Chart';
-import { getDatas } from '../../API';
+// import { getData } from '../../API';
 import Loading from '../../Components/Loading';
 import Footer from '../../Components/Footer/Footer';
 
 class PoliceActions extends Component {
    state = {
+      allData: this.props.data,
       fetchSuccess: false,
       curfew: null,
       quarantine: null,
@@ -20,7 +21,7 @@ class PoliceActions extends Component {
          const hungarianDayNames = ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'];
          return hungarianDayNames[dayNumber];
       }
-      const result = await getDatas();
+      const result = this.state.allData;
 
       const curfew = result.map(element => {
          return [ getDayName(element.lastUpdateInHungary), element.policeAction.curfew ];

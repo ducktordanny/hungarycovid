@@ -29,16 +29,16 @@
       align-self: flex-start;
       width: 80%;
       max-width: 800px;
-      margin: 4rem;
+      margin: 4rem 4rem 2rem;
       border-radius: 2rem;
       box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.2);
       transition: all .4s;
 
-      @media (hover: hover) and (pointer: fine) {
-         &:hover {
-            transform: scale(1.02);
-         }
-      }
+      // @media (hover: hover) and (pointer: fine) {
+      //    &:hover {
+      //       transform: scale(1.02);
+      //    }
+      // }
    }
    
    @media only screen and (max-width: 600px) {
@@ -49,17 +49,21 @@
    }
 }
 
+.section {
+   animation: load-in 0.8s ease-in-out;
+}
+
 section {
    animation: load-in 0.8s ease-in-out;
+}
 
-   @keyframes load-in {
-      from {
-         transform: translateY(25%);
-         opacity: 0;
-      } to {
-         transform: translateY(0%);
-         opacity: 1;
-      }
+@keyframes load-in {
+   from {
+      transform: translateY(25%);
+      opacity: 0;
+   } to {
+      transform: translateY(0%);
+      opacity: 1;
    }
 }
 

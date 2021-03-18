@@ -2,26 +2,24 @@ import { Component } from 'react';
 import Chart from '../../Components/Chart';
 import Loading from '../../Components/Loading';
 import Footer from '../../Components/Footer/Footer';
-import { getDatas } from '../../API';
+// import { getData } from '../../API';
 import Cards from '../../Components/Cards/Cards';
 
 import '../Pages.css';
 
 class Covid extends Component {
    state = {
+      allData: this.props.data,
       fetchSuccess: false,
       dailyInfected: null,
       dailyTested: null,
       dailyDeceased: null,
+      dailyVaccinated: null,
       infected: null,
       deceased: null,
       tested: null,
       recovered: null,
       vaccinated: null,
-   }
-
-   componentWillUnmount = () => {
-      
    }
 
    componentDidMount = async () => {
@@ -33,12 +31,12 @@ class Covid extends Component {
       const format = (number) => {
          return new Intl.NumberFormat('hu-HU').format(number);
       }
+      
+      const result = this.state.allData;
 
-      const result = await getDatas();
-      console.log(result);
       // if we had world update today but still not in Hungary (in Chart we would have 2 today)
       if (result.length === 8) {
-         result.splice(7, 1);
+         result.splice(0, 1);
       }
 
       const dailyInfected = result.map(element => {
@@ -50,66 +48,72 @@ class Covid extends Component {
       const dailyDeceased = result.map(element => {
          return [ getDayName(element.lastUpdateInHungary), element.covid.deceasedToday ];
       });
+      const dailyVaccinated = result.map(element => {
+         return [ getDayName(element.lastUpdateInHungary), element.covid.vaccinatedToday ];
+      });
 
-      result.reverse();
+      // result.reverse();
+
+      const lastIndex = result.length - 1;
+      const lastButOneIndex = result.length - 2;
 
       const infected = [{
             title: 'Fertőzöttek',
-            data: format(result[0].covid.infected),
+            data: format(result[lastIndex].covid.infected),
          }, {
             title: 'Mai új fertőzöttek',
-            data: format(result[0].covid.infectedToday),
+            data: format(result[lastIndex].covid.infectedToday),
          }, {
             title: 'Tegnapi új fertőzöttek',
-            data: format(result[1].covid.infectedToday),
+            data: format(result[lastButOneIndex].covid.infectedToday),
          }, {
             title: 'Aktív fertőzöttek',
-            data: format(result[0].covid.activeInfected),
+            data: format(result[lastIndex].covid.activeInfected),
          }, {
             title: 'Fertőzöttek a világon',
-            data: format(result[0].covid.activeInfectedGlobal),
+            data: format(result[lastIndex].covid.activeInfectedGlobal),
          },
       ];
 
       const deceased = [{
          title: 'Halálozások',
-         data: format(result[0].covid.deceased)
+         data: format(result[lastIndex].covid.deceased)
       }, {
          title: 'Mai halálozások',
-         data: format(result[0].covid.deceasedToday)
+         data: format(result[lastIndex].covid.deceasedToday)
       }, {
          title: 'Tegnapi halálozások',
-         data: format(result[1].covid.deceasedToday)
+         data: format(result[lastButOneIndex].covid.deceasedToday)
       }, {
          title: 'Halálozások a világon',
-         data: format(result[0].covid.deceasedGlobal)
+         data: format(result[lastIndex].covid.deceasedGlobal)
       }];
 
       const tested = [{
          title: 'Tesztelések',
-         data: format(result[0].covid.tested)
+         data: format(result[lastIndex].covid.tested)
       }, {
          title: 'Mai tesztelések',
-         data: format(result[0].covid.testedToday)
+         data: format(result[lastIndex].covid.testedToday)
       }, {
          title: 'Tegnapi tesztelések',
-         data: format(result[1].covid.testedToday)
+         data: format(result[lastButOneIndex].covid.testedToday)
       }];
 
       const recovered = [{
          title: 'Gyógyultak',
-         data: format(result[0].covid.recovered)
+         data: format(result[lastIndex].covid.recovered)
       }, {
          title: 'Gyógyultak a világon',
-         data: format(result[0].covid.recoveredGlobal)
+         data: format(result[lastIndex].covid.recoveredGlobal)
       }];
 
       const vaccinated = [{
          title: 'Összesen beoltottak',
-         data: format(result[0].covid.vaccinated),
+         data: format(result[lastIndex].covid.vaccinated),
       }, {
          title: 'Ma beoltottak',
-         data: format(result[0].covid.vaccinatedToday),
+         data: format(result[lastIndex].covid.vaccinatedToday),
       }];
 
       this.setState({
@@ -117,6 +121,7 @@ class Covid extends Component {
          dailyInfected,
          dailyTested,
          dailyDeceased,
+         dailyVaccinated,
          infected,
          deceased,
          tested,
@@ -131,6 +136,7 @@ class Covid extends Component {
          dailyInfected,
          dailyTested,
          dailyDeceased,
+         dailyVaccinated,
          infected,
          deceased,
          tested,
@@ -150,6 +156,7 @@ class Covid extends Component {
             <Chart title={'Napi új fertőzöttek'} datas={dailyInfected} />
             <Chart title={'Napi új tesztelések'} datas={dailyTested} />
             <Chart title={'Napi új halálozások'} datas={dailyDeceased} />
+            <Chart title={'Napi beoltások'} datas={dailyVaccinated} />
 
             <Footer />
          </>

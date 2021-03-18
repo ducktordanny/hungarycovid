@@ -1,18 +1,34 @@
+import { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
+import { getData } from '../../API';
+// import Loading from '../Loading';
 import Home from '../../Containers/Home/Home';
 import Covid from '../../Containers/Covid/Covid';
 import PoliceActions from '../../Containers/PoliceActions/PoliceActions';
 import NotFound from '../NotFound';
+import Loading from '../Loading';
 
 const Routes = () => {
+   const [apiData, setApiData] = useState(null);
+
+   useEffect(() => {
+      const fetchData = async () => {
+         const response = await getData();
+         setApiData(response);
+      }
+      fetchData();
+   }, []);
+
    return (
-      <Switch>
-         <Route exact path='/' ><Home /></Route>
-         <Route path='/covid19'><Covid /></Route>
-         <Route path='/police-actions'><PoliceActions /></Route>
+      apiData
+      ? <Switch>
+         <Route exact path='/' ><Home data={apiData} /></Route>
+         <Route path='/covid19'><Covid data={apiData} /></Route>
+         <Route path='/police-actions'><PoliceActions data={apiData} /></Route>
          <Route path='*'><NotFound /></Route>
       </Switch>
+      : <Loading />
    )
 }
 

@@ -15,4 +15,7 @@ sass --watch Footer.scss Footer.css &
 cd ../Nav
 sass --watch Nav.scss Nav.css &
 
+cd ../Section
+sass --watch Section.scss Section.css &
+
 wait
