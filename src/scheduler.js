@@ -131,46 +131,51 @@ const fetchTodayDatas = async () => {
    const hunUpdateInDB = doc ? new Date(doc.lastUpdateInHungary) : null;
    const worldUpdateInDB = doc ? new Date(doc.lastUpdateInWorld) : null;
 
+   const updateDifference = hunUpdateInDB.getDate() === lastUpdateInHungary.getDate() || worldUpdateInDB.getDate() === lastUpdateInWorld.getDate();
+   const todayEquality = hunUpdateInDB.getDate() === today.getDate() || worldUpdateInDB.getDate() === today.getDate();
+
    // collection.deleteMany({ lastUpdateInWorld: new Date('1970-01-01T00:00:00.000+00:00') });
 
-   if (doc && isDateEqual(lastUpdateInHungary, hunUpdateInDB) && isDateEqual(lastUpdateInWorld, worldUpdateInDB)) {
+   if (doc && isDateStringEqual(lastUpdateInHungary, hunUpdateInDB) && isDateStringEqual(lastUpdateInWorld, worldUpdateInDB)) {
       console.log('Change is unnecessary...');
-   } else {
+   } else if (doc) {
       // if (lastUpdateInHungary.getDate() === new Date().getDate())
-      if (doc && (hunUpdateInDB.getDate() === lastUpdateInHungary.getDate() || worldUpdateInDB.getDate() === lastUpdateInWorld.getDate())
-      && (hunUpdateInDB.getDate() === today.getDate() || worldUpdateInDB.getDate() === today.getDate())) {
+      if (updateDifference && todayEquality) {
          // save data what we are gonna delete...
          await backupCollection.insertOne(doc);
          console.log('Backup made for unnecessary data...');
+
          await collection.deleteOne({ _id: doc._id });
          console.log('Unnecessary data has been removed...');
+
          const dbResNewLast = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
          doc = dbResNewLast[0];
       }
+
       // console.log(lastUpdateHungaryDB, lastUpdateHungary, lastUpdateWorldDB, lastUpdateWorld);
       if (lastUpdateInHungary.getDate() !== today.getDate()) {
-         scrappedData.covid['vaccinatedToday'] = doc ? doc.covid.vaccinatedToday : null;
-         scrappedData.covid['infectedToday'] = doc ? doc.covid.infectedToday : null;
-         scrappedData.covid['testedToday'] = doc ? doc.covid.testedToday : null;
-         scrappedData.covid['deceasedToday'] = doc ? doc.covid.deceasedToday : null;
+         scrappedData.covid['vaccinatedToday'] = doc.covid.vaccinatedToday;
+         scrappedData.covid['infectedToday'] = doc.covid.infectedToday;
+         scrappedData.covid['testedToday'] = doc.covid.testedToday;
+         scrappedData.covid['deceasedToday'] = doc.covid.deceasedToday;
       } else {
-         scrappedData.covid['vaccinatedToday'] = doc ? scrappedData.covid.vaccinated - doc.covid.vaccinated : null;
-         scrappedData.covid['infectedToday'] = doc ? scrappedData.covid.infected - doc.covid.infected : null;
-         scrappedData.covid['testedToday'] = doc ? scrappedData.covid.tested - doc.covid.tested : null;
-         scrappedData.covid['deceasedToday'] = doc ? scrappedData.covid.deceased - doc.covid.deceased : null;
-
+         scrappedData.covid['vaccinatedToday'] = scrappedData.covid.vaccinated - doc.covid.vaccinated;
+         scrappedData.covid['infectedToday'] = scrappedData.covid.infected - doc.covid.infected;
+         scrappedData.covid['testedToday'] = scrappedData.covid.tested - doc.covid.tested;
+         scrappedData.covid['deceasedToday'] = scrappedData.covid.deceased - doc.covid.deceased;
+      }
+      
+      await collection.insertOne(scrappedData);
+      console.log('New data inserted to database...');
+      
+      if (!(updateDifference && todayEquality)) {
          const { infectedToday, infected, testedToday, tested, deceasedToday, deceased, quarantined, recovered, activeInfected, vaccinated, vaccinatedToday } = scrappedData.covid;
          const { lastUpdateInHungary } = scrappedData;
          const notificationMessage = `A mai napon (${formatDate(lastUpdateInHungary)}) újabb **${formatNumber(infectedToday)}** beteget azonosítottak Magyarországon, így a fertőzöttek száma **${formatNumber(infected)}** főre, míg az aktív betegek száma **${formatNumber(activeInfected)}** főre változott és újabb **${formatNumber(deceasedToday)}** ember vesztette életét, mellyel eddig összesen **${formatNumber(deceased)}** áldozatot követelt a vírus. Továbbá a mai napon **${formatNumber(testedToday)}** mintavételre került sor és ezzel eddig összesen **${formatNumber(tested)}** ember lett tesztelve. A gyógyultak száma jelenleg **${formatNumber(recovered)}** főre nött, illetve **${formatNumber(quarantined)}** fő van hatósági házi karanténban. A mai napon **${formatNumber(vaccinatedToday)}** ember kapta meg valamelyik oltóanyag egyikét, ezzel összesen eddig **${formatNumber(vaccinated)}** ember lett beoltva.`;
          await sendDiscordMessage(notificationMessage);
       }
 
-      await collection.insertOne(scrappedData);
-      console.log('New data inserted to database...');
-            
       if (lastUpdateInHungary.getDate() === today.getDate()) {
-         // insert new Data
-
          // remove all records older than 7days
          const sevenDaysLater = new Date(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toLocaleDateString());
          await collection.deleteOne({ lastUpdateInHungary: { "$lt": sevenDaysLater } });
@@ -179,7 +184,7 @@ const fetchTodayDatas = async () => {
    }
 }
   
-const isDateEqual = (date1, date2) => {
+const isDateStringEqual = (date1, date2) => {
    return date1.toString() === date2.toString();
 }
 

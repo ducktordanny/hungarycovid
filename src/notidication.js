@@ -1,9 +1,8 @@
 const Discord = require('discord.js');
 require('dotenv').config();
 
-const client = new Discord.Client();
-
 const sendDiscordMessage = async (msg) => {
+   const client = new Discord.Client();
    
    await Promise.all([
       new Promise(resolve => {
