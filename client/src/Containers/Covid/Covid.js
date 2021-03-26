@@ -34,11 +34,6 @@ class Covid extends Component {
       
       const result = this.state.allData;
 
-      // if we had world update today but still not in Hungary (in Chart we would have 2 today)
-      if (result.length === 8) {
-         result.splice(0, 1);
-      }
-
       const dailyInfected = result.map(element => {
          return [ getDayName(element.lastUpdateInHungary), element.covid.infectedToday ];
       });
@@ -51,8 +46,6 @@ class Covid extends Component {
       const dailyVaccinated = result.map(element => {
          return [ getDayName(element.lastUpdateInHungary), element.covid.vaccinatedToday ];
       });
-
-      // result.reverse();
 
       const lastIndex = result.length - 1;
       const lastButOneIndex = result.length - 2;

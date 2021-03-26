@@ -15,6 +15,10 @@ const Routes = () => {
    useEffect(() => {
       const fetchData = async () => {
          const response = await getData();
+         // if we had world update today but still not in Hungary (in Chart we would have 2 today)
+         if (response.length === 8) {
+            response.splice(response.length - 2, 1);
+         }
          setApiData(response);
       }
       fetchData();

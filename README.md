@@ -5,7 +5,8 @@
 * [x] Finish route containers
 * [x] Server side refreshes
 * [x] API refresh after 30 mins of cachedTime
-* [ ] Client side: API data treatment fixes... (Bring data from root (App.js) to leafs (Home, Covid, PoliceActions))
+* [x] Client side: API data treatment fixes... (Bring data from root (App.js) to leafs (Home, Covid, PoliceActions))
+* [ ] React Google Charts memory leak.
 * [ ] Map's link not available after a day. Somehow I should save it.
 * [ ] Check for any bug or issue before publish. Optimization.
 * [ ] Git publish
