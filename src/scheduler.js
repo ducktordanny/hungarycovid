@@ -72,18 +72,18 @@ const fetchTodayDatas = async () => {
       tested
    }
 
-   const policeAction = {
-      curfew: convertData($('#api-rendezvenyek-szam')),
-      quarantine: convertData($('#api-hatosagi-hazi-karanten-szam')),
-      maskWearing: convertData($('#api-maszkviseles-szam')),
-      storeOpeningHours: convertData($('#api-uzletek-szam')),
-      travelling: convertData($('#api-utazasi-korlatozasok-szam')),
-      shopsRestaurantsPubs: convertData($('#api-rendorseg-szam')),
-   }
-   
+   // const policeAction = {
+   //    curfew: convertData($('#api-rendezvenyek-szam')),
+   //    quarantine: convertData($('#api-hatosagi-hazi-karanten-szam')),
+   //    maskWearing: convertData($('#api-maszkviseles-szam')),
+   //    storeOpeningHours: convertData($('#api-uzletek-szam')),
+   //    travelling: convertData($('#api-utazasi-korlatozasok-szam')),
+   //    shopsRestaurantsPubs: convertData($('#api-rendorseg-szam')),
+   // }
+
    let $hunDateString = $('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
    let $worldDateString = $('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
-   
+
    // id date string is invalid (e.g. because of a dot what should be there but its not)
    if ($worldDateString.split('').filter(x => x === '.').length < 3) {
       $worldDateString = $worldDateString.split(/\s/).join('. ');
@@ -91,14 +91,14 @@ const fetchTodayDatas = async () => {
    if ($hunDateString.split('').filter(x => x === '.').length < 3) {
       $hunDateString = $hunDateString.split(/\s/).join('. ');
    }
-   
+
    const lastUpdateInHungary = new Date($hunDateString);
    const lastUpdateInWorld = new Date($worldDateString);
 
    // console.log(lastUpdateInHungary, lastUpdateInWorld);
-   
+
    // throw new Error('Just testing');
-   
+
    // get map
    // console.log('Fetching map...');
    const mapResponse = await fetch(`${URL}/terkepek/fertozottek`);
@@ -110,7 +110,7 @@ const fetchTodayDatas = async () => {
 
    const scrappedData = {
       covid,
-      policeAction,
+      // policeAction,
       countyMap,
       lastUpdateInHungary,
       lastUpdateInWorld,
@@ -164,13 +164,13 @@ const fetchTodayDatas = async () => {
          scrappedData.covid['testedToday'] = scrappedData.covid.tested - doc.covid.tested;
          scrappedData.covid['deceasedToday'] = scrappedData.covid.deceased - doc.covid.deceased;
       }
-      
+
       await collection.insertOne(scrappedData);
       console.log('New data inserted to database...');
-      
-      
+
+
       if (lastUpdateInHungary.getDate() === today.getDate()) {
-         
+
          if (hunUpdateInDB.getDate() !== lastUpdateInHungary.getDate()) {
             const { infectedToday, infected, testedToday, tested, deceasedToday, deceased, quarantined, recovered, activeInfected, vaccinated, vaccinatedToday } = scrappedData.covid;
             const { lastUpdateInHungary } = scrappedData;
@@ -184,7 +184,7 @@ const fetchTodayDatas = async () => {
       }
    }
 }
-  
+
 const isDateStringEqual = (date1, date2) => {
    return date1.toString() === date2.toString();
 }
