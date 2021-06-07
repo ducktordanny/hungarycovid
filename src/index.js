@@ -18,7 +18,6 @@ app.get('/', async (req, res) => {
       const DB_URL = process.env.MONGO_DB_URL;
       const client = await new MongoClient(DB_URL, { useUnifiedTopology: true });
       try {
-
          console.log('Try to connect to database...');
          await client.connect();
          console.log('Connected correctly to server...');
