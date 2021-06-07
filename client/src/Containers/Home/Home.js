@@ -23,7 +23,7 @@ class Home extends Component {
       const formatNumber = (number) => {
          return new Intl.NumberFormat('hu-HU').format(number);
       }
-      
+
       const formatDate = (dateString) => {
          return new Date(dateString).toLocaleString('hu-HU');
       };
@@ -45,8 +45,8 @@ class Home extends Component {
       }, {
          title: 'Mai beoltottak',
          data: formatNumber(result[lastIndex].covid.vaccinatedToday),
-      }, ];
-      
+      },];
+
       const newsGlobal = [{
          title: 'Fertőzöttek',
          data: formatNumber(result[lastIndex].covid.activeInfectedGlobal)
@@ -56,7 +56,7 @@ class Home extends Component {
       }, {
          title: 'Gyógyultak',
          data: formatNumber(result[lastIndex].covid.recoveredGlobal)
-      }, ]
+      },]
 
       const dateOptions = {
          weekday: 'long',
@@ -69,12 +69,12 @@ class Home extends Component {
 
       const formatedLastUpdateInHungary = new Date(result[lastIndex].lastUpdateInHungary).toLocaleString('HU-hu', dateOptions);
       const lastUpdateInHungaryWithTitle = (
-         <label htmlFor="lastUpdateInHungaryTitle">Fontosabb adatok kigyűjtve:<br/><br/>Utolsó frissítés Magyarországon:<br/>{ formatedLastUpdateInHungary }</label>
+         <label htmlFor="lastUpdateInHungaryTitle">Fontosabb adatok kigyűjtve:<br /><br />Utolsó frissítés Magyarországon:<br />{formatedLastUpdateInHungary}</label>
       );
 
       const lastUpdateInWorld = new Date(result[lastIndex].lastUpdateInWorld).toLocaleString('HU-hu', dateOptions);
       const lastUpdateInWorldWithTitle = (
-         <label htmlFor="lastUpdateInWorldTitle">Utolsó frissítés a világon:<br/>{ lastUpdateInWorld }</label>
+         <label htmlFor="lastUpdateInWorldTitle">Utolsó frissítés a világon:<br />{lastUpdateInWorld}</label>
       );
 
       const { infectedToday, infected, testedToday, tested, deceasedToday, deceased, quarantined, recovered, activeInfected, vaccinated, vaccinatedToday } = result[lastIndex].covid;
@@ -108,12 +108,13 @@ class Home extends Component {
       return (
          <>
             {
-               loaded 
-               ? <div>
+               loaded
+                  ? <div>
                      <Section title='Aktuális hírek' contents={[actualNewsSection]} />
-                     <Cards mainTitle={ lastUpdateInHungary } datas={ newsHungary } tag={ 'fő' } />
-                     <Cards mainTitle={ lastUpdateInWorld } datas={ newsGlobal } tag={ 'fő' } />
-                     <section className='map-container'><img className='map' src={ countyMap } alt='map' /></section>
+                     <Section title='Frissítés!' contents={['A hivatalos oldalon a rendőrségi intézkedésekkel kapcsolatos adatok közvetítése megszűnt így ezeket nem lehet megjeleníteni.']} />
+                     <Cards mainTitle={lastUpdateInHungary} datas={newsHungary} tag={'fő'} />
+                     <Cards mainTitle={lastUpdateInWorld} datas={newsGlobal} tag={'fő'} />
+                     <section className='map-container'><img className='map' src={countyMap} alt='map' /></section>
                      <Section title='Újdonságok' contents={[
                         'Elérhetővé vált újabb grafikon az oldal "Koronavírus" menüpontjában, melyen látható, hogy egy nap mennyi embert oltanak be. Az adatok megjelenítése a többihez hasonlóan egy hétre nyúlik vissza.',
                         'Az oldalnak elérhetővé vált az új discord oldala, ahol minden nap a magyar frissítést követően kiírásra kerül a fent látható összefoglaló. A csatlakozáshoz allul kattintson a discord ikonra.',
@@ -121,7 +122,7 @@ class Home extends Component {
                      />
                      <Footer />
                   </div>
-               : <Loading />
+                  : <Loading />
             }
          </>
       )

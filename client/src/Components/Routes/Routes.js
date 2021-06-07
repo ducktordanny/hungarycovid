@@ -5,7 +5,7 @@ import { getData } from '../../API';
 // import Loading from '../Loading';
 import Home from '../../Containers/Home/Home';
 import Covid from '../../Containers/Covid/Covid';
-import PoliceActions from '../../Containers/PoliceActions/PoliceActions';
+// import PoliceActions from '../../Containers/PoliceActions/PoliceActions';
 import NotFound from '../NotFound';
 import Loading from '../Loading';
 
@@ -26,13 +26,13 @@ const Routes = () => {
 
    return (
       apiData
-      ? <Switch>
-         <Route exact path='/' ><Home data={apiData} /></Route>
-         <Route path='/covid19'><Covid data={apiData} /></Route>
-         <Route path='/police-actions'><PoliceActions data={apiData} /></Route>
-         <Route path='*'><NotFound /></Route>
-      </Switch>
-      : <Loading />
+         ? <Switch>
+            <Route exact path='/' ><Home data={apiData} /></Route>
+            <Route path='/covid19'><Covid data={apiData} /></Route>
+            {/* <Route path='/police-actions'><PoliceActions data={apiData} /></Route> */}
+            <Route path='*'><NotFound /></Route>
+         </Switch>
+         : <Loading />
    )
 }
 
