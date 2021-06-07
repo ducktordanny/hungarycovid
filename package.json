@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "scheduler": "node src/scheduler.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "DucktorDanny",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
