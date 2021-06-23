@@ -9,7 +9,7 @@ import '@animated-burgers/burger-squeeze/dist/styles.css';
 // check for outside click:
 // https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 
-const Nav = ({listElements}) => {
+const Nav = ({ listElements }) => {
    const [enableMenu, setEnableMenu] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
    const [selectedMenuPoint, setSelectedMenuPoint] = useState('');
@@ -25,13 +25,12 @@ const Nav = ({listElements}) => {
 
    useEffect(() => {
       const path = window.location.pathname;
-      
+
       let title = '';
-      switch(path) {
-         case '/': title ='Főoldal'; break;
+      switch (path) {
+         case '/': title = 'Főoldal'; break;
          case '/covid19': title = 'Koronavírus'; break;
-         case '/police-actions': title = 'Rendőri intézkedések'; break;
-         default: title = 'Főoldal'; break;
+         default: title = '404'; break;
       }
       setSelectedMenuPoint(title);
 
@@ -69,14 +68,14 @@ const Nav = ({listElements}) => {
                <img className='logo' src={Logo} alt='Logo' onClick={changeMenu} />
             </Link>
             <ul className='nav-links' onClick={changeMenu}>
-               { showMenuPoints() }
+               {showMenuPoints()}
             </ul>
             <h2 className='selected-menu'>{selectedMenuPoint}</h2>
             <Burger className='burger-button' isOpen={isOpen} onClick={openClose} />
          </nav>
          <div className={`menu ${isOpen ? 'menu-opened' : enableMenu ? 'menu-closed' : ''}`} onAnimationEnd={menuCloseEnded} >
             <ul className='nav-links' onClick={changeMenu}>
-               { showMenuPoints() }
+               {showMenuPoints()}
             </ul>
          </div>
       </>
