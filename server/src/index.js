@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
 const app = express();
@@ -10,19 +11,20 @@ app.use(express.json());
 let cachedData = null;
 let cachedTime = null;
 
+const DB_URL = process.env.MONGO_DB_URL;
+const client = new MongoClient(DB_URL, { useUnifiedTopology: true });
+
 app.get('/', async (req, res) => {
    if (cachedTime && cachedTime > Date.now() - 30 * 1000) {
       res.send(cachedData);
    } else {
-      const { MongoClient } = require('mongodb');
-      const DB_URL = process.env.MONGO_DB_URL;
-      const client = await new MongoClient(DB_URL, { useUnifiedTopology: true });
       try {
          console.log('Try to connect to database...');
          await client.connect();
          console.log('Connected correctly to server...');
 
          const db = client.db('covid_datas');
+         if (db === undefined) throw new Error('Database is not defined.');
          const collection = db.collection('test');
 
          const response = await collection.find().toArray();
