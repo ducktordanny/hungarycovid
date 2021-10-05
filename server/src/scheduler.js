@@ -96,7 +96,6 @@ const fetchTodayDatas = async () => {
 
    const lastUpdateInHungary = new Date($hunDateString);
    const lastUpdateInWorld = new Date($worldDateString);
-   console.log('DATE TEST', lastUpdateInHungary, lastUpdateInWorld);
 
    // console.log(lastUpdateInHungary, lastUpdateInWorld);
 
