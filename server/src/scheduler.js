@@ -84,6 +84,10 @@ const fetchTodayDatas = async () => {
    let $hunDateString = $('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
    let $worldDateString = $('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
 
+   $hunDateString = $hunDateString.replace(/\xA0/g, ' ');
+   $worldDateString = $worldDateString.replace(/\xA0/g, ' ');
+
+
    // id date string is invalid (e.g. because of a dot what should be there but its not)
    if ($worldDateString.split('').filter(x => x === '.').length < 3) {
       $worldDateString = $worldDateString.split(/\s/).join('. ');
@@ -93,6 +97,7 @@ const fetchTodayDatas = async () => {
    }
 
    const lastUpdateInHungary = new Date($hunDateString);
+   console.log(lastUpdateInHungary);
    const lastUpdateInWorld = new Date($worldDateString);
 
    // console.log(lastUpdateInHungary, lastUpdateInWorld);
