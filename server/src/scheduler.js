@@ -83,10 +83,8 @@ const fetchTodayDatas = async () => {
 
    let $hunDateString = $('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
    let $worldDateString = $('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
-
    $hunDateString = $hunDateString.replace(/\xA0/g, ' ');
    $worldDateString = $worldDateString.replace(/\xA0/g, ' ');
-
 
    // id date string is invalid (e.g. because of a dot what should be there but its not)
    if ($worldDateString.split('').filter(x => x === '.').length < 3) {
@@ -97,7 +95,6 @@ const fetchTodayDatas = async () => {
    }
 
    const lastUpdateInHungary = new Date($hunDateString);
-   console.log(lastUpdateInHungary);
    const lastUpdateInWorld = new Date($worldDateString);
 
    // console.log(lastUpdateInHungary, lastUpdateInWorld);
@@ -136,8 +133,8 @@ const fetchTodayDatas = async () => {
    const hunUpdateInDB = doc ? new Date(doc.lastUpdateInHungary) : null;
    const worldUpdateInDB = doc ? new Date(doc.lastUpdateInWorld) : null;
 
-   const updateDifference = hunUpdateInDB.getDate() === lastUpdateInHungary.getDate() || worldUpdateInDB.getDate() === lastUpdateInWorld.getDate();
-   const todayEquality = hunUpdateInDB.getDate() === today.getDate() || worldUpdateInDB.getDate() === today.getDate();
+   const updateDifference = hunUpdateInDB?.getDate() === lastUpdateInHungary?.getDate() || worldUpdateInDB?.getDate() === lastUpdateInWorld?.getDate();
+   const todayEquality = hunUpdateInDB?.getDate() === today.getDate() || worldUpdateInDB?.getDate() === today.getDate();
 
    // collection.deleteMany({ lastUpdateInWorld: new Date('1970-01-01T00:00:00.000+00:00') });
 
@@ -187,6 +184,10 @@ const fetchTodayDatas = async () => {
          await collection.deleteOne({ lastUpdateInHungary: { "$lt": sevenDaysLater } });
          await backupCollection.deleteOne({ lastUpdateInApi: { "$lt": sevenDaysLater } });
       }
+   } else if (hunUpdateInDB === null && worldUpdateInDB === null) {
+      // that senerio when there is nothing in the database
+      await collection.insertOne(scrappedData);
+      console.log('Inserted first data to the database...');
    }
 }
 
@@ -194,6 +195,7 @@ const isDateStringEqual = (date1, date2) => {
    return date1.toString() === date2.toString();
 }
 
+// TODO: we have to remove the globalRecovered property...
 const run = async () => {
    try {
       console.log('Try to connect to database...');
