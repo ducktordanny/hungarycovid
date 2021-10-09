@@ -31,6 +31,7 @@ const fetchTodayDatas = async () => {
 
    const $ = cheerio.load(body);
 
+   // filtering main information
    const vaccinated = convertData($('#api-beoltottak'));
 
    const activeInfectedBudapest = convertData($('#api-fertozott-pest'));
@@ -61,7 +62,6 @@ const fetchTodayDatas = async () => {
       activeInfected,
       recoveredBudapest,
       recoveredCountry,
-      recoveredGlobal,
       recovered,
       deceasedBudapest,
       deceasedCountry,
@@ -71,15 +71,6 @@ const fetchTodayDatas = async () => {
       quarantined,
       tested
    }
-
-   // const policeAction = {
-   //    curfew: convertData($('#api-rendezvenyek-szam')),
-   //    quarantine: convertData($('#api-hatosagi-hazi-karanten-szam')),
-   //    maskWearing: convertData($('#api-maszkviseles-szam')),
-   //    storeOpeningHours: convertData($('#api-uzletek-szam')),
-   //    travelling: convertData($('#api-utazasi-korlatozasok-szam')),
-   //    shopsRestaurantsPubs: convertData($('#api-rendorseg-szam')),
-   // }
 
    let $hunDateString = $('.view-footer .bg-even #block-block-1 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
    let $worldDateString = $('.view-footer .bg-even #block-block-2 .well-lg p').text().replace('Legutolsó frissítés dátuma: ', '').trim();
@@ -97,22 +88,15 @@ const fetchTodayDatas = async () => {
    const lastUpdateInHungary = new Date($hunDateString);
    const lastUpdateInWorld = new Date($worldDateString);
 
-   // console.log(lastUpdateInHungary, lastUpdateInWorld);
-
-   // throw new Error('Just testing');
-
    // get map
-   // console.log('Fetching map...');
    const mapResponse = await fetch(`${URL}/terkepek/fertozottek`);
    const mapBody = await mapResponse.text();
    const $map = cheerio.load(mapBody);
 
    const countyMap = $map('.view-terkepek .view-content img').attr('src');
-   // console.log(countyMap);
 
    const scrappedData = {
       covid,
-      // policeAction,
       countyMap,
       lastUpdateInHungary,
       lastUpdateInWorld,
@@ -123,9 +107,6 @@ const fetchTodayDatas = async () => {
    const collection = db.collection('test');
    const backupCollection = db.collection('backup');
 
-   // console.log('Get last data...');
-   // get last data from database
-   // const dbRes = await collection.find({}).sort({ _id: -1 }).limit(1).toArray();
    const dbRes = await (await collection.find({}).toArray()).reverse();
    let doc = dbRes[0];
 
@@ -136,8 +117,7 @@ const fetchTodayDatas = async () => {
    const updateDifference = hunUpdateInDB?.getDate() === lastUpdateInHungary?.getDate() || worldUpdateInDB?.getDate() === lastUpdateInWorld?.getDate();
    const todayEquality = hunUpdateInDB?.getDate() === today.getDate() || worldUpdateInDB?.getDate() === today.getDate();
 
-   // collection.deleteMany({ lastUpdateInWorld: new Date('1970-01-01T00:00:00.000+00:00') });
-
+   // verifications how to update
    if (doc && isDateStringEqual(lastUpdateInHungary, hunUpdateInDB) && isDateStringEqual(lastUpdateInWorld, worldUpdateInDB)) {
       console.log('Change is unnecessary...');
    } else if (doc) {
@@ -169,7 +149,6 @@ const fetchTodayDatas = async () => {
 
       await collection.insertOne(scrappedData);
       console.log('New data inserted to database...');
-
 
       if (lastUpdateInHungary.getDate() === today.getDate()) {
 
